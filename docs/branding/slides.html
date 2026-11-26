@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Visu Hotel · Identidad de marca</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tinta: #0E1220; --superficie: #171C2E; --borde: #262C44; --acento: #2DD4BF; --acento-osc: #0E766E;
+    --texto: #F5F6FA; --gris: #9AA0B8; --claro: #F3F4F8; --exito: #34D399; --ambar: #F5B544; --linea: #E2E4EC;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, sans-serif; background: #ccc; }
+  .slide { width: 1400px; min-height: 900px; padding: 96px; position: relative; overflow: hidden; background: var(--claro); color: var(--tinta); display: none; flex-direction: column; }
+  .slide.activa { display: flex; }
+  .oscura { background: var(--tinta); color: var(--texto); }
+  h1, h2, h3, .sora { font-family: Sora, sans-serif; letter-spacing: -.03em; }
+  .kicker { font-family: Sora; font-weight: 600; font-size: 14px; letter-spacing: .22em; text-transform: uppercase; color: #545A72; display: flex; gap: 16px; }
+  .oscura .kicker { color: var(--gris); }
+  .kicker b { color: var(--acento-osc); }
+  .oscura .kicker b { color: var(--acento); }
+  h2 { font-size: 60px; font-weight: 700; line-height: 1.04; margin: 22px 0 44px; }
+  h2 em { font-style: normal; color: var(--acento-osc); }
+  .oscura h2 em { color: var(--acento); }
+  p.bajada { font-size: 19px; line-height: 1.55; color: #4A5068; max-width: 720px; }
+  .oscura p.bajada { color: var(--gris); }
+  .pie { margin-top: auto; padding-top: 22px; border-top: 1px solid var(--linea); display: flex; justify-content: space-between; font-size: 13px; color: #545A72; }
+  .oscura .pie { border-color: var(--borde); color: var(--gris); }
+  .pie b { color: var(--acento-osc); font-family: Sora; }
+  .oscura .pie b { color: var(--acento); }
+  .contenido { flex: 1; margin-bottom: 40px; }
+  .grilla { display: grid; gap: 20px; }
+  .caja { background: #fff; border: 1px solid var(--linea); border-radius: 22px; overflow: hidden; }
+  .oscura .caja { background: var(--superficie); border-color: var(--borde); }
+  .etiqueta { display: inline-block; background: var(--acento); color: var(--tinta); font: 600 12px Sora; letter-spacing: .12em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; }
+  .marca { display: inline-flex; align-items: center; gap: .42em; font-family: Sora; font-weight: 600; letter-spacing: -.02em; }
+  .marca b { color: var(--acento); font-weight: 600; }
+  .claro-txt .marca b, .marca.osc b { color: var(--acento-osc); }
+  .brillo { position: absolute; width: 900px; height: 900px; border-radius: 50%; background: radial-gradient(circle, rgba(45,212,191,.28), transparent 65%); pointer-events: none; }
+  .puntos { position: absolute; inset: 0; background-image: radial-gradient(#1C2238 1.2px, transparent 1.2px); background-size: 28px 28px; pointer-events: none; }
+  .rel { position: relative; z-index: 1; }
+  .degradado { background: linear-gradient(140deg, #0E1220 0%, #0E1A2A 45%, #0B3A3D 100%); }
+  .anillos { position: absolute; border-radius: 50%; pointer-events: none; background: repeating-radial-gradient(circle, transparent 0 42px, rgba(45,212,191,.16) 42px 44px); -webkit-mask: radial-gradient(circle, #000 35%, transparent 70%); mask: radial-gradient(circle, #000 35%, transparent 70%); }
+  .banda { position: absolute; width: 2000px; height: 220px; pointer-events: none; background: linear-gradient(90deg, transparent, rgba(45,212,191,.20) 45%, rgba(14,118,110,.10) 70%, transparent); transform: rotate(-22deg); }
+  .geo { position: absolute; pointer-events: none; }
+  .suave { background: radial-gradient(55% 60% at 100% 0%, rgba(45,212,191,.16), transparent 70%), var(--claro); }
+
+</style>
+</head>
+<body>
+
+<!-- 01 · Carátula -->
+<section class="slide degradado oscura" style="min-height:1050px;justify-content:center">
+  <div class="anillos" style="width:1100px;height:1100px;right:-380px;top:-420px"></div><div class="banda" style="left:-300px;top:640px"></div><div class="geo" data-geo="a" style="left:70px;top:70px"></div>
+  <div class="puntos"></div><div class="brillo" style="right:-260px;top:-300px"></div><div class="brillo" style="left:-420px;bottom:-560px;opacity:.5"></div>
+  <div class="rel" style="display:flex;flex-direction:column;align-items:center;text-align:center">
+    <div data-llave="220" style="filter:drop-shadow(0 30px 80px rgba(45,212,191,.25))"></div>
+    <div class="marca" style="font-size:108px;margin-top:56px">Visu <b>Hotel</b></div>
+    <p style="font-size:24px;color:var(--gris);margin-top:22px">La llave de entrada a tu hotel, por chat.</p>
+    <div style="display:flex;gap:14px;margin-top:64px">
+      <span class="etiqueta">Identidad de marca</span>
+      <span class="etiqueta" style="background:transparent;color:var(--texto);border:1px solid var(--borde)">Manual normativo · 2026</span>
+    </div>
+  </div>
+  <div class="rel" style="position:absolute;left:96px;right:96px;bottom:64px;display:flex;justify-content:space-between;font-size:14px;color:var(--gris)">
+    <span>Branding · Diseño de producto</span><span>Asistente de reservas para hoteles chicos</span>
+  </div>
+</section>
+
+<!-- 02 · Brief -->
+<section class="slide suave">
+  <div class="geo" data-geo="b" style="right:90px;top:70px"></div>
+  <div class="kicker"><b>02</b>Brief y desafío</div>
+  <h2>Un hotel chico no puede<br>tener la recepción <em>abierta 24 h</em></h2>
+  <div class="contenido grilla" style="grid-template-columns:1.15fr 1fr;gap:28px">
+    <div class="caja" style="padding:40px">
+      <span class="etiqueta">El problema</span>
+      <p style="font-size:21px;line-height:1.55;margin-top:22px">Las consultas llegan de noche, por WhatsApp y siempre son las mismas: precio, mascotas, check-in, cancelación. Si nadie contesta, el huésped reserva en una agencia y el hotel paga comisión.</p>
+      <p style="font-size:21px;line-height:1.55;margin-top:18px"><b>Visu Hotel</b> responde con los datos reales del hotel y deja la reserva lista para confirmar, sin inventar precios.</p>
+    </div>
+    <div class="grilla" style="grid-template-rows:repeat(3,1fr)">
+      <div class="caja" style="padding:28px 32px;display:flex;gap:22px;align-items:center"><span class="sora" style="font-size:40px;font-weight:800;color:var(--acento-osc)">01</span><div><h3 style="font-size:24px">Cálida</h3><p style="color:#4A5068;margin-top:4px">Habla como la recepción: cercana, en voseo, sin tecnicismos.</p></div></div>
+      <div class="caja" style="padding:28px 32px;display:flex;gap:22px;align-items:center"><span class="sora" style="font-size:40px;font-weight:800;color:var(--acento-osc)">02</span><div><h3 style="font-size:24px">Confiable</h3><p style="color:#4A5068;margin-top:4px">Precios y cupos los calcula el sistema; lo que no sabe, lo deriva.</p></div></div>
+      <div class="caja" style="padding:28px 32px;display:flex;gap:22px;align-items:center"><span class="sora" style="font-size:40px;font-weight:800;color:var(--acento-osc)">03</span><div><h3 style="font-size:24px">Simple</h3><p style="color:#4A5068;margin-top:4px">Una forma, un color de acento. Se lee igual en un favicon y en un cartel.</p></div></div>
+    </div>
+  </div>
+  <div class="pie"><span><b>02</b> — Brief y desafío</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 03 · Concepto -->
+<section class="slide degradado oscura">
+  <div class="anillos" style="width:900px;height:900px;right:-300px;bottom:-420px"></div>
+  <div class="puntos"></div><div class="brillo" style="right:-300px;top:-200px;opacity:.7"></div>
+  <div class="kicker rel"><b>03</b>Concepto</div>
+  <h2 class="rel">La llave de la habitación<br>es la <em>primera conversación</em></h2>
+  <div class="contenido grilla rel" style="grid-template-columns:1fr 90px 1fr 90px 1.1fr;align-items:center;gap:0">
+    <div class="caja" style="padding:34px;text-align:center;opacity:.75">
+      <svg viewBox="0 0 64 64" width="120" height="120"><rect width="64" height="64" rx="18" fill="#0E1220"/><path d="M14 18h36a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H30l-10 8v-8h-6a6 6 0 0 1-6-6V24a6 6 0 0 1 6-6z" fill="none" stroke="#9AA0B8" stroke-width="4"/><circle cx="24" cy="31" r="2.4" fill="#9AA0B8"/><circle cx="32" cy="31" r="2.4" fill="#9AA0B8"/><circle cx="40" cy="31" r="2.4" fill="#9AA0B8"/></svg>
+      <h3 style="font-size:20px;margin-top:18px">Burbuja de chat</h3>
+      <p style="color:var(--gris);margin-top:8px;font-size:15px;line-height:1.5">Primera idea. Descartada: igual a cualquier app de mensajes y a 16 px no se entiende.</p>
+    </div>
+    <div style="text-align:center;color:var(--acento);font-size:40px">→</div>
+    <div class="caja" style="padding:34px;text-align:center">
+      <svg viewBox="0 0 64 64" width="120" height="120"><rect width="64" height="64" rx="18" fill="#0E1220"/><g fill="none" stroke="#2DD4BF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="21" cy="21" r="10"/><circle cx="21" cy="21" r="3"/><path d="M28 28l22 22M41 41l5-5M45 45l4-4M49 49l5-5"/></g></svg>
+      <h3 style="font-size:20px;margin-top:18px">Llave antigua</h3>
+      <p style="color:var(--gris);margin-top:8px;font-size:15px;line-height:1.5">Hospitalidad clásica. Trazo fino y muchos dientes: se empasta en tamaños chicos.</p>
+    </div>
+    <div style="text-align:center;color:var(--acento);font-size:40px">→</div>
+    <div class="caja" style="padding:34px;text-align:center;border-color:var(--acento)">
+      <div data-llave="120"></div>
+      <h3 style="font-size:20px;margin-top:18px">Llave Visu</h3>
+      <p style="color:var(--gris);margin-top:8px;font-size:15px;line-height:1.5">Trazo grueso, dos dientes y ángulo de 45°. El verde agua transmite confianza y calma, como un lago patagónico.</p>
+    </div>
+  </div>
+  <div class="pie rel"><span><b>03</b> — Concepto</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 04 · Logotipo positivo / negativo -->
+<section class="slide">
+  <div class="kicker"><b>04</b>Logotipo</div>
+  <h2>Isotipo + logotipo,<br>en <em>positivo y negativo</em></h2>
+  <div class="contenido grilla" style="grid-template-columns:1fr 1fr">
+    <div class="caja" style="display:flex;flex-direction:column">
+      <div style="flex:1;display:grid;place-items:center;padding:70px 0"><div class="marca osc" style="font-size:64px"><span data-llave="96" data-variante="claro"></span>Visu <b>Hotel</b></div></div>
+      <div style="border-top:1px solid var(--linea);padding:18px 26px;display:flex;justify-content:space-between;font-size:15px"><b>Positivo</b><span style="color:#545A72">Sobre fondos claros · «Hotel» en verde profundo #0E766E</span></div>
+    </div>
+    <div class="caja" style="display:flex;flex-direction:column;background:var(--tinta);border-color:var(--tinta)">
+      <div style="flex:1;display:grid;place-items:center;padding:70px 0;color:var(--texto)"><div class="marca" style="font-size:64px"><span data-llave="96"></span>Visu <b>Hotel</b></div></div>
+      <div style="border-top:1px solid var(--borde);padding:18px 26px;display:flex;justify-content:space-between;font-size:15px;color:var(--texto)"><b>Negativo · versión principal</b><span style="color:var(--gris)">Sobre tinta #0E1220 · «Hotel» en verde agua #2DD4BF</span></div>
+    </div>
+  </div>
+  <div class="pie"><span><b>04</b> — Logotipo positivo y negativo</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 05 · Construcción -->
+<section class="slide oscura">
+  <div class="kicker"><b>05</b>Construcción</div>
+  <h2>Una grilla de 64 unidades<br>y <em>un solo grosor</em> de trazo</h2>
+  <div class="contenido grilla" style="grid-template-columns:560px 1fr;gap:56px;align-items:center">
+    <svg viewBox="-4 -4 72 72" width="560" height="560">
+      <defs><pattern id="g" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M4 0H0V4" fill="none" stroke="#262C44" stroke-width=".15"/></pattern></defs>
+      <rect width="64" height="64" fill="url(#g)"/>
+      <rect width="64" height="64" rx="18" fill="#171C2E" stroke="#3A4160" stroke-width=".3" stroke-dasharray="1 1"/>
+      <g fill="none" stroke="#2DD4BF" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" opacity=".92"><circle cx="21.5" cy="21.5" r="9.5"/><path d="M28.5 28.5L51 51M42 42l6-6M50.5 50.5l4.5-4.5"/></g>
+      <g fill="none" stroke="#F5F6FA" stroke-width=".25">
+        <circle cx="21.5" cy="21.5" r="9.5" stroke-dasharray="1 .8"/>
+        <line x1="0" y1="0" x2="64" y2="64" stroke-dasharray="1 .8"/>
+        <line x1="21.5" y1="-2" x2="21.5" y2="66" stroke-dasharray=".6 .6" opacity=".6"/>
+        <line x1="-2" y1="21.5" x2="66" y2="21.5" stroke-dasharray=".6 .6" opacity=".6"/>
+      </g>
+      <circle cx="21.5" cy="21.5" r=".8" fill="#F5F6FA"/>
+      <g font-family="Inter" font-size="2.3" fill="#F5F6FA">
+        <text x="33" y="14">r 9,5</text><text x="54" y="60">45°</text><text x="1.5" y="62">rx 18</text>
+      </g>
+    </svg>
+    <div class="grilla" style="gap:16px">
+      <div class="caja" style="padding:24px 28px"><span class="sora" style="color:var(--acento);font-weight:700">Anillo</span><p style="color:var(--gris);margin-top:6px;line-height:1.5">Círculo de radio 9,5 con centro en (21,5 · 21,5): ocupa el cuadrante superior izquierdo.</p></div>
+      <div class="caja" style="padding:24px 28px"><span class="sora" style="color:var(--acento);font-weight:700">Vástago y dientes</span><p style="color:var(--gris);margin-top:6px;line-height:1.5">Sobre la diagonal de 45°. Dos dientes perpendiculares, el segundo más largo para leer «llave» y no «lupa».</p></div>
+      <div class="caja" style="padding:24px 28px"><span class="sora" style="color:var(--acento);font-weight:700">Trazo 7,5 · puntas redondas</span><p style="color:var(--gris);margin-top:6px;line-height:1.5">Un único grosor (11,7 % del ancho). Es lo que hace que se vea entera en un favicon de 16 px.</p></div>
+      <div class="caja" style="padding:24px 28px"><span class="sora" style="color:var(--acento);font-weight:700">Contenedor</span><p style="color:var(--gris);margin-top:6px;line-height:1.5">Cuadrado de esquinas 18/64, el mismo radio que las tarjetas de la interfaz.</p></div>
+    </div>
+  </div>
+  <div class="pie"><span><b>05</b> — Construcción</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 06 · Área de seguridad -->
+<section class="slide suave">
+  <div class="geo" data-geo="b" style="right:90px;top:70px"></div>
+  <div class="kicker"><b>06</b>Área de seguridad y tamaños mínimos</div>
+  <h2>Aire alrededor, siempre:<br>la medida es <em>x</em></h2>
+  <div class="contenido grilla" style="grid-template-columns:1.35fr 1fr;gap:28px">
+    <div class="caja" style="display:grid;place-items:center;padding:40px">
+      <div style="position:relative;padding:58px;border:1.5px dashed var(--acento-osc);border-radius:6px;background:repeating-linear-gradient(45deg,rgba(194,64,31,.06) 0 8px,transparent 8px 16px)">
+        <div style="background:var(--claro);padding:0"><div class="marca osc" style="font-size:52px"><span data-llave="78" data-variante="claro"></span>Visu <b>Hotel</b></div></div>
+        <span class="sora" style="position:absolute;top:16px;left:50%;transform:translateX(-50%);color:var(--acento-osc);font-weight:700">x</span>
+        <span class="sora" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);color:var(--acento-osc);font-weight:700">x</span>
+        <span class="sora" style="position:absolute;left:22px;top:50%;transform:translateY(-50%);color:var(--acento-osc);font-weight:700">x</span>
+        <span class="sora" style="position:absolute;right:22px;top:50%;transform:translateY(-50%);color:var(--acento-osc);font-weight:700">x</span>
+      </div>
+      <p style="color:#4A5068;margin-top:26px;text-align:center;max-width:520px;line-height:1.5"><b>x = diámetro del anillo de la llave.</b> Ningún texto, borde ni imagen entra en esa franja.</p>
+    </div>
+    <div class="grilla" style="grid-template-rows:1fr 1fr">
+      <div class="caja" style="padding:30px">
+        <h3 style="font-size:20px">Isotipo</h3>
+        <div style="display:flex;align-items:flex-end;gap:26px;margin-top:22px"><span data-llave="64" data-variante="tinta"></span><span data-llave="32" data-variante="tinta"></span><span data-llave="16" data-variante="tinta"></span></div>
+        <p style="color:#4A5068;margin-top:16px">Mínimo <b>16 px</b> en pantalla · <b>5 mm</b> impreso.</p>
+      </div>
+      <div class="caja" style="padding:30px">
+        <h3 style="font-size:20px">Logotipo completo</h3>
+        <div style="display:flex;align-items:center;gap:28px;margin-top:22px"><div class="marca osc" style="font-size:30px"><span data-llave="42" data-variante="claro"></span>Visu <b>Hotel</b></div><div class="marca osc" style="font-size:16px"><span data-llave="22" data-variante="claro"></span>Visu <b>Hotel</b></div></div>
+        <p style="color:#4A5068;margin-top:16px">Mínimo <b>96 px</b> de ancho · <b>25 mm</b> impreso.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pie"><span><b>06</b> — Área de seguridad</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 07 · Versiones -->
+<section class="slide">
+  <div class="kicker"><b>07</b>Versiones</div>
+  <h2>Una marca, <em>seis salidas</em></h2>
+  <div class="contenido grilla" style="grid-template-columns:repeat(3,1fr)">
+    <div class="caja" style="background:var(--tinta);border-color:var(--tinta)"><div style="height:220px;display:grid;place-items:center;color:var(--texto)"><div class="marca" style="font-size:38px"><span data-llave="56"></span>Visu <b>Hotel</b></div></div><div style="padding:16px 22px;border-top:1px solid var(--borde);color:var(--texto);font-size:15px"><b>Principal</b> <span style="color:var(--gris)">· horizontal sobre tinta</span></div></div>
+    <div class="caja"><div style="height:220px;display:grid;place-items:center;text-align:center"><div><span data-llave="78" data-variante="claro"></span><div class="marca osc" style="font-size:30px;margin-top:14px;display:flex;justify-content:center">Visu <b>Hotel</b></div></div></div><div style="padding:16px 22px;border-top:1px solid var(--linea);font-size:15px"><b>Vertical</b> <span style="color:#545A72">· piezas cuadradas</span></div></div>
+    <div class="caja" style="background:linear-gradient(135deg,#0F2A33,#0E1220)"><div style="height:220px;display:grid;place-items:center"><span data-llave="120" style="filter:drop-shadow(0 16px 30px rgba(0,0,0,.45))"></span></div><div style="padding:16px 22px;border-top:1px solid var(--borde);color:var(--texto);font-size:15px"><b>Ícono de app</b> <span style="color:var(--gris)">· avatar del chat</span></div></div>
+    <div class="caja"><div style="height:220px;display:grid;place-items:center"><div class="marca" style="font-size:38px;color:var(--tinta)"><span data-llave="56" data-variante="mono-tinta"></span>Visu Hotel</div></div><div style="padding:16px 22px;border-top:1px solid var(--linea);font-size:15px"><b>Monocromo tinta</b> <span style="color:#545A72">· fax, sellos, grabado</span></div></div>
+    <div class="caja" style="background:var(--acento);border-color:var(--acento)"><div style="height:220px;display:grid;place-items:center"><div class="marca" style="font-size:38px;color:var(--tinta)"><span data-llave="56" data-variante="mono-coral"></span>Visu Hotel</div></div><div style="padding:16px 22px;border-top:1px solid rgba(14,18,32,.15);font-size:15px;color:var(--tinta)"><b>Sobre verde agua</b> <span style="opacity:.7">· piezas promocionales</span></div></div>
+    <div class="caja"><div style="height:220px;display:flex;align-items:center;justify-content:center;gap:30px">
+      <div style="width:170px;border-radius:10px 10px 0 0;background:#DADDE6;padding:9px 10px 0;transform:scale(1.7)"><div style="background:#fff;border-radius:8px 8px 0 0;padding:8px 10px;display:flex;align-items:center;gap:7px;font-size:11px;white-space:nowrap"><span data-llave="16" data-variante="tinta"></span>Hotel Lumbre · Reservas</div></div>
+    </div><div style="padding:16px 22px;border-top:1px solid var(--linea);font-size:15px"><b>Favicon 16 px</b> <span style="color:#545A72">· la prueba de fuego</span></div></div>
+  </div>
+  <div class="pie"><span><b>07</b> — Versiones</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 08 · Usos incorrectos -->
+<section class="slide">
+  <div class="kicker"><b>08</b>Usos incorrectos</div>
+  <h2>Lo que <em>no</em> se hace</h2>
+  <div class="contenido grilla" style="grid-template-columns:repeat(3,1fr)" id="incorrectos"></div>
+  <div class="pie"><span><b>08</b> — Usos incorrectos</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 09 · Paleta -->
+<section class="slide degradado oscura">
+  <div class="banda" style="left:-400px;top:20px;opacity:.7"></div>
+  <div class="kicker"><b>09</b>Paleta cromática</div>
+  <h2>60 · 30 · 10: noche, superficie<br>y <em>una sola luz</em></h2>
+  <div class="contenido">
+    <div style="display:flex;height:300px;border-radius:22px;overflow:hidden;border:1px solid var(--borde)">
+      <div style="flex:60;background:var(--tinta);padding:30px;display:flex;flex-direction:column;justify-content:space-between"><span class="sora" style="font-size:54px;font-weight:800;color:#2A3150">60 %</span><div><b class="sora" style="font-size:22px">Tinta</b><div style="color:var(--gris);margin-top:6px;font-size:15px">#0E1220 · RGB 14 18 32 · fondos</div></div></div>
+      <div style="flex:30;background:var(--superficie);padding:30px;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid var(--borde)"><span class="sora" style="font-size:54px;font-weight:800;color:#2F3654">30 %</span><div><b class="sora" style="font-size:22px">Superficie</b><div style="color:var(--gris);margin-top:6px;font-size:15px">#171C2E · tarjetas</div></div></div>
+      <div style="flex:10;background:var(--acento);padding:30px 18px;display:flex;flex-direction:column;justify-content:space-between;color:var(--tinta)"><span class="sora" style="font-size:40px;font-weight:800">10 %</span><div><b class="sora" style="font-size:20px">Verde agua</b><div style="margin-top:6px;font-size:13px">#2DD4BF</div></div></div>
+    </div>
+    <div class="grilla" style="grid-template-columns:repeat(4,1fr);margin-top:20px" id="apoyo"></div>
+  </div>
+  <div class="pie"><span><b>09</b> — Paleta</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 10 · Tipografía -->
+<section class="slide suave">
+  <div class="geo" data-geo="b" style="right:90px;top:70px"></div>
+  <div class="kicker"><b>10</b>Tipografía</div>
+  <h2>Sora para hablar fuerte,<br><em>Inter</em> para leer cómodo</h2>
+  <div class="contenido grilla" style="grid-template-columns:1fr 1fr">
+    <div class="caja" style="padding:40px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="etiqueta">Titulares</span><span style="color:#545A72">Google Fonts · OFL</span></div>
+      <div class="sora" style="font-size:150px;font-weight:700;line-height:1;margin-top:26px">Aa</div>
+      <div class="sora" style="font-size:38px;font-weight:700;margin-top:8px">Sora</div>
+      <div class="sora" style="font-size:18px;color:#4A5068;margin-top:14px;line-height:1.6">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br>abcdefghijklmnñopqrstuvwxyz · 0123456789 $ %</div>
+      <div style="display:flex;gap:18px;margin-top:20px" class="sora"><span style="font-weight:500">Medium 500</span><span style="font-weight:600">Semibold 600</span><span style="font-weight:700">Bold 700</span></div>
+    </div>
+    <div class="caja" style="padding:40px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="etiqueta" style="background:var(--tinta);color:var(--texto)">Interfaz y texto</span><span style="color:#545A72">Google Fonts · OFL</span></div>
+      <div style="font-size:150px;font-weight:600;line-height:1;margin-top:26px">Aa</div>
+      <div style="font-size:38px;font-weight:600;margin-top:8px">Inter</div>
+      <div style="font-size:18px;color:#4A5068;margin-top:14px;line-height:1.6">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br>abcdefghijklmnñopqrstuvwxyz · 0123456789 $ %</div>
+      <div style="display:flex;gap:18px;margin-top:20px"><span>Regular 400</span><span style="font-weight:500">Medium 500</span><span style="font-weight:600">Semibold 600</span></div>
+    </div>
+    <div class="caja" style="grid-column:1/3;padding:30px 40px;display:grid;grid-template-columns:repeat(4,auto);gap:36px;align-items:baseline;justify-content:space-between">
+      <div><span style="color:#545A72;font-size:13px">H1 · Sora 700 · 56</span><div class="sora" style="font-size:44px;font-weight:700">Recepción 24 h</div></div>
+      <div><span style="color:#545A72;font-size:13px">H2 · Sora 600 · 28</span><div class="sora" style="font-size:28px;font-weight:600">Suite Lumbre</div></div>
+      <div><span style="color:#545A72;font-size:13px">Cuerpo · Inter 400 · 16</span><div style="font-size:16px">¿Aceptan mascotas?</div></div>
+      <div><span style="color:#545A72;font-size:13px">Precio · Sora 700 · 20</span><div class="sora" style="font-size:20px;font-weight:700">$ 534.600</div></div>
+    </div>
+  </div>
+  <div class="pie"><span><b>10</b> — Tipografía</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 11 · Recursos gráficos -->
+<section class="slide oscura">
+  <div class="banda" style="left:-200px;top:-60px;opacity:.8"></div>
+  <div class="kicker"><b>11</b>Recursos gráficos</div>
+  <h2>Íconos, patrón y <em>etiquetas</em></h2>
+  <div class="contenido grilla" style="grid-template-columns:1.1fr 1fr;gap:20px">
+    <div class="caja" style="padding:32px">
+      <h3 style="font-size:20px">Íconos de línea · trazo 2 px, puntas redondas</h3>
+      <div id="iconos" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px"></div>
+    </div>
+    <div class="grilla" style="grid-template-rows:1fr auto">
+      <div class="caja" style="position:relative;min-height:240px;overflow:hidden">
+        <div id="patron" style="position:absolute;inset:0"></div>
+        <div style="position:absolute;left:24px;bottom:20px;background:var(--tinta);padding:10px 14px;border-radius:10px;font-size:14px"><b>Patrón de llaves</b> <span style="color:var(--gris)">· fondos de piezas impresas</span></div>
+      </div>
+      <div class="caja" style="padding:26px 30px">
+        <h3 style="font-size:18px">Etiquetas de estado y de análisis UX</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
+          <span class="etiqueta">Hallazgo</span>
+          <span class="etiqueta" style="background:rgba(245,181,68,.14);color:var(--ambar)">Pendiente</span>
+          <span class="etiqueta" style="background:rgba(52,211,153,.14);color:var(--exito)">Confirmada</span>
+          <span class="etiqueta" style="background:#262C44;color:var(--texto)">Consultó disponibilidad</span>
+        </div>
+        <p style="color:var(--gris);margin-top:14px;font-size:14px;line-height:1.5">Las anotaciones de UX/UI de este proyecto van en verde agua con texto tinta, no en celeste.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pie"><span><b>11</b> — Recursos gráficos</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 12 · Aplicación en producto -->
+<section class="slide degradado oscura">
+  <div class="anillos" style="width:1000px;height:1000px;left:-420px;bottom:-520px"></div>
+  <div class="puntos"></div><div class="brillo" style="left:30%;top:20%;opacity:.6"></div>
+  <div class="kicker rel"><b>12</b>Aplicación en producto</div>
+  <h2 class="rel">La marca, <em>funcionando</em></h2>
+  <div class="contenido rel" style="position:relative;height:620px">
+    <img src="capturas/panel-recorte.png" style="position:absolute;left:0;top:30px;width:880px;border-radius:18px;border:1px solid var(--borde);box-shadow:0 40px 80px rgba(0,0,0,.5)">
+    <img src="capturas/chat-telefono.png" style="position:absolute;right:20px;top:-20px;width:290px;border-radius:44px;box-shadow:0 40px 90px rgba(0,0,0,.6)">
+    <div style="position:absolute;left:0;bottom:0;display:flex;gap:12px">
+      <span class="etiqueta">Panel de recepción</span><span class="etiqueta">Chat del huésped</span><span class="etiqueta" style="background:transparent;border:1px solid var(--borde);color:var(--texto)">Capturas reales de la demo</span>
+    </div>
+    
+  </div>
+  <div class="pie rel"><span><b>12</b> — Aplicación en producto</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 13 · Uniforme y taza -->
+<section class="slide suave">
+  
+  <div class="kicker"><b>13</b>Aplicaciones · equipo</div>
+  <h2>Uniforme de recepción<br>y <em>taza</em> del equipo</h2>
+  <div class="contenido grilla" style="grid-template-columns:1.15fr 1fr">
+    <div class="caja" style="background:linear-gradient(160deg,#E9EBF2,#D8DBE6);display:grid;place-items:center;padding:30px">
+      <svg viewBox="0 0 400 400" width="430" height="430">
+        <defs><linearGradient id="tela" x1="0" x2="1"><stop offset="0" stop-color="#131829"/><stop offset=".5" stop-color="#1C2237"/><stop offset="1" stop-color="#11162A"/></linearGradient></defs>
+        <ellipse cx="200" cy="385" rx="140" ry="10" fill="#0E1220" opacity=".12"/>
+        <path d="M150 40 L110 52 L40 100 L66 170 L102 152 L102 370 L298 370 L298 152 L334 170 L360 100 L290 52 L250 40 Q200 78 150 40Z" fill="url(#tela)"/>
+        <path d="M150 40 Q200 78 250 40 L238 36 Q200 62 162 36Z" fill="#2DD4BF"/>
+        <path d="M200 62 L200 120" stroke="#2A3150" stroke-width="2"/><circle cx="200" cy="82" r="3" fill="#2A3150"/><circle cx="200" cy="104" r="3" fill="#2A3150"/>
+        <path d="M66 170 L102 152 L98 142 L60 160Z" fill="#2DD4BF"/><path d="M334 170 L298 152 L302 142 L340 160Z" fill="#2DD4BF"/>
+        <g transform="translate(236 118) scale(.5)"><g fill="none" stroke="#2DD4BF" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="21.5" cy="21.5" r="9.5"/><path d="M28.5 28.5L51 51M42 42l6-6M50.5 50.5l4.5-4.5"/></g></g>
+        <text x="200" y="300" text-anchor="middle" font-family="Sora" font-weight="600" font-size="14" fill="#9AA0B8" letter-spacing="3">RECEPCIÓN</text>
+      </svg>
+      <p style="color:#4A5068;font-size:15px">Chomba tinta · ribetes verde agua · isotipo bordado en el pecho</p>
+    </div>
+    <div class="caja" style="background:var(--tinta);border-color:var(--tinta);display:grid;place-items:center;padding:30px">
+      <svg viewBox="0 0 400 400" width="380" height="380">
+        <defs><linearGradient id="loza" x1="0" x2="1"><stop offset="0" stop-color="#E4E6EE"/><stop offset=".35" stop-color="#FFFFFF"/><stop offset="1" stop-color="#CDD0DC"/></linearGradient></defs>
+        <ellipse cx="185" cy="352" rx="120" ry="14" fill="#000" opacity=".35"/>
+        <path d="M290 150 q70 0 70 70 t-70 70" fill="none" stroke="#D5D8E2" stroke-width="22"/>
+        <path d="M80 90 L290 90 L278 340 Q185 365 92 340Z" fill="url(#loza)"/>
+        <ellipse cx="185" cy="90" rx="105" ry="16" fill="#C9CCD8"/><ellipse cx="185" cy="92" rx="95" ry="11" fill="#2A1A14"/>
+        <path d="M84 150 L286 150 L284 190 L86 190Z" fill="#2DD4BF"/>
+        <g transform="translate(150 215) scale(1.1)"><g fill="none" stroke="#0E1220" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="21.5" cy="21.5" r="9.5"/><path d="M28.5 28.5L51 51M42 42l6-6M50.5 50.5l4.5-4.5"/></g></g>
+        <text x="185" y="176" text-anchor="middle" font-family="Sora" font-weight="700" font-size="15" fill="#0E1220">chat despierto</text>
+      </svg>
+      <p style="color:var(--gris);font-size:15px">Taza de cerámica · banda verde agua · frase de la marca</p>
+    </div>
+  </div>
+  <div class="pie"><span><b>13</b> — Uniforme y taza</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 14 · Packaging y señalética -->
+<section class="slide">
+  <div class="kicker"><b>14</b>Packaging y señalética</div>
+  <h2>Del mostrador <em>al celular</em> del huésped</h2>
+  <div class="contenido grilla" style="grid-template-columns:1fr 1fr">
+    <div class="caja" style="background:linear-gradient(160deg,#0F2A33,#0E1220);border-color:var(--tinta);display:grid;place-items:center;padding:34px">
+      <svg viewBox="0 0 420 380" width="440" height="400">
+        <ellipse cx="210" cy="355" rx="170" ry="12" fill="#000" opacity=".4"/>
+        <g transform="rotate(-8 150 200)">
+          <rect x="40" y="70" width="230" height="270" rx="14" fill="#2DD4BF"/>
+          <rect x="40" y="70" width="230" height="56" rx="14" fill="#1FB8A4"/>
+          <path d="M120 70 q35 30 70 0" fill="#0E1220" opacity=".25"/>
+          <g transform="translate(98 160) scale(1.8)"><g fill="none" stroke="#0E1220" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="21.5" cy="21.5" r="9.5"/><path d="M28.5 28.5L51 51M42 42l6-6M50.5 50.5l4.5-4.5"/></g></g>
+          <text x="125" y="318" text-anchor="middle" font-family="Sora" font-weight="700" font-size="16" fill="#0E1220">Habitación ____</text>
+        </g>
+        <g transform="rotate(10 300 220)">
+          <rect x="230" y="110" width="160" height="230" rx="16" fill="#171C2E" stroke="#3A4160"/>
+          <rect x="250" y="135" width="40" height="30" rx="6" fill="#C9A86A" opacity=".85"/>
+          <g transform="translate(262 230) scale(.95)"><g fill="none" stroke="#2DD4BF" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="21.5" cy="21.5" r="9.5"/><path d="M28.5 28.5L51 51M42 42l6-6M50.5 50.5l4.5-4.5"/></g></g>
+          <text x="310" y="320" text-anchor="middle" font-family="Inter" font-size="11" fill="#9AA0B8">Escribinos por chat</text>
+        </g>
+      </svg>
+      <p style="color:var(--gris);font-size:15px;margin-top:6px">Sobre porta tarjeta-llave + tarjeta de acceso</p>
+    </div>
+    <div class="caja" style="background:linear-gradient(180deg,#E9EBF2,#D5D8E3);display:grid;place-items:center;padding:34px">
+      <svg viewBox="0 0 360 400" width="360" height="400">
+        <ellipse cx="180" cy="380" rx="110" ry="10" fill="#0E1220" opacity=".18"/>
+        <path d="M130 372 L180 300 L230 372Z" fill="#9AA0B8" opacity=".6"/>
+        <rect x="60" y="20" width="240" height="300" rx="18" fill="#0E1220"/>
+        <rect x="60" y="20" width="240" height="300" rx="18" fill="none" stroke="#262C44"/>
+        <g transform="translate(84 44) scale(.5)"><g fill="none" stroke="#2DD4BF" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="21.5" cy="21.5" r="9.5"/><path d="M28.5 28.5L51 51M42 42l6-6M50.5 50.5l4.5-4.5"/></g></g>
+        <text x="122" y="66" font-family="Sora" font-weight="600" font-size="15" fill="#F5F6FA">Visu <tspan fill="#2DD4BF">Hotel</tspan></text>
+        <text x="84" y="112" font-family="Sora" font-weight="700" font-size="18" fill="#F5F6FA">¿Recepción cerrada?</text>
+        <text x="84" y="136" font-family="Sora" font-weight="700" font-size="18" fill="#2DD4BF">El chat no.</text>
+        <rect x="120" y="160" width="120" height="120" rx="12" fill="#F5F6FA"/>
+        <g id="qr" fill="#0E1220"></g>
+        <text x="180" y="304" text-anchor="middle" font-family="Inter" font-size="11" fill="#9AA0B8">Escaneá y preguntá lo que quieras</text>
+      </svg>
+      <p style="color:#4A5068;font-size:15px">Cartel de mostrador con QR al chat</p>
+    </div>
+  </div>
+  <div class="pie"><span><b>14</b> — Packaging y señalética</span><span>Visu Hotel · Brand Identity 2026</span></div>
+</section>
+
+<!-- 15 · Cierre -->
+<section class="slide degradado oscura" style="min-height:1050px;justify-content:center">
+  <div class="anillos" style="width:1300px;height:1300px;left:50px;top:-150px"></div><div class="banda" style="left:-500px;top:780px"></div><div class="geo" data-geo="a" style="right:80px;top:80px;transform:scaleX(-1)"></div>
+  <div class="puntos"></div><div class="brillo" style="left:250px;top:120px;opacity:.9"></div>
+  <div class="rel" style="text-align:center;display:flex;flex-direction:column;align-items:center">
+    <div data-llave="140"></div>
+    <h2 style="font-size:84px;margin:44px 0 18px">Gracias.</h2>
+    <p style="font-size:22px;color:var(--gris);max-width:760px;line-height:1.5">Visu Hotel es un proyecto de portfolio: identidad, producto, desarrollo, datos y gestión. La demo usa un hotel ficticio, Hotel Lumbre.</p>
+    <div style="display:flex;gap:14px;margin-top:48px;flex-wrap:wrap;justify-content:center">
+      <span class="etiqueta">Branding</span>
+      <span class="etiqueta" style="background:transparent;border:1px solid var(--borde);color:var(--texto)">UX/UI</span>
+      <span class="etiqueta" style="background:transparent;border:1px solid var(--borde);color:var(--texto)">Desarrollo</span>
+      <span class="etiqueta" style="background:transparent;border:1px solid var(--borde);color:var(--texto)">Datos</span>
+      <span class="etiqueta" style="background:transparent;border:1px solid var(--borde);color:var(--texto)">Project Management</span>
+    </div>
+  </div>
+  <div class="rel" style="position:absolute;left:96px;right:96px;bottom:64px;display:flex;justify-content:space-between;font-size:14px;color:var(--gris)">
+    <span class="marca" style="font-size:18px;color:var(--texto)"><span data-llave="26"></span>Visu <b>Hotel</b></span><span>Brand Identity 2026</span>
+  </div>
+</section>
+
+<script>
+const LLAVE = '<circle cx="21.5" cy="21.5" r="9.5"/><path d="M28.5 28.5L51 51M42 42l6-6M50.5 50.5l4.5-4.5"/>';
+const VARIANTES = {
+  oscuro:     { fondo: "#0E1220", trazo: "#2DD4BF", borde: "#262C44" },
+  claro:      { fondo: "#0E1220", trazo: "#2DD4BF", borde: "none" },
+  tinta:      { fondo: "#0E1220", trazo: "#2DD4BF", borde: "none" },
+  "mono-tinta": { fondo: "#0E1220", trazo: "#F3F4F8", borde: "none" },
+  "mono-coral": { fondo: "none", trazo: "#0E1220", borde: "none" },
+};
+function llave(t, v = "oscuro", extra = "") {
+  const c = VARIANTES[v];
+  return `<svg viewBox="0 0 64 64" width="${t}" height="${t}" style="display:block;flex:none;${extra}"><rect width="64" height="64" rx="18" fill="${c.fondo}" ${c.borde !== "none" ? `stroke="${c.borde}" stroke-width="1"` : ""}/><g fill="none" stroke="${c.trazo}" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">${LLAVE}</g></svg>`;
+}
+document.querySelectorAll("[data-llave]").forEach((e) => (e.innerHTML = llave(+e.dataset.llave, e.dataset.variante)));
+document.querySelectorAll("[data-llave]").forEach((e) => { if (!e.style.display) e.style.display = "inline-block"; });
+// la separación va entre isotipo y texto, no entre «Visu» y «Hotel»
+document.querySelectorAll(".marca").forEach((m) => { const t = document.createElement("span"); [...m.childNodes].filter((n) => !(n.dataset && "llave" in n.dataset)).forEach((n) => t.appendChild(n)); t.style.whiteSpace = "pre"; m.appendChild(t); });
+
+// 08 · usos incorrectos
+const tachar = '<svg style="position:absolute;left:18px;top:18px;width:calc(100% - 36px);height:calc(100% - 36px)" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="0" y1="0" x2="100" y2="100" stroke="#E5484D" stroke-width=".6" vector-effect="non-scaling-stroke" style="stroke-width:2px"/></svg>';
+const malos = [
+  ["Deformar", `<div style="transform:scaleX(1.6)">${llave(110)}</div>`, "#fff"],
+  ["Rotar", `<div style="transform:rotate(-30deg)">${llave(110)}</div>`, "#fff"],
+  ["Cambiar los colores", `<svg viewBox="0 0 64 64" width="110" height="110"><rect width="64" height="64" rx="18" fill="#FF6B4A"/><g fill="none" stroke="#7B5CFF" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">${LLAVE}</g></svg>`, "#fff"],
+  ["Fondos sin contraste", `<svg viewBox="0 0 64 64" width="110" height="110"><g fill="none" stroke="#FF8A6E" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">${LLAVE}</g></svg>`, "#2DD4BF"],
+  ["Sombras y efectos", `<div style="filter:drop-shadow(0 0 22px #2DD4BF) drop-shadow(8px 10px 0 #9AA0B8)">${llave(110)}</div>`, "#fff"],
+  ["Otra tipografía", `<div style="display:flex;align-items:center;gap:14px">${llave(56)}<span style="font-family:'Times New Roman',serif;font-style:italic;font-size:40px">Visu Hotel</span></div>`, "#fff"],
+];
+document.getElementById("incorrectos").innerHTML = malos.map(([t, m, f]) => `
+  <div class="caja"><div style="height:240px;display:grid;place-items:center;position:relative;background:${f}">${m}${tachar}</div>
+  <div style="padding:16px 22px;border-top:1px solid var(--linea);display:flex;align-items:center;gap:12px;font-family:Sora;font-weight:600"><span style="width:24px;height:24px;border-radius:50%;background:#E5484D;color:#fff;display:grid;place-items:center;font-size:13px">✕</span>${t}</div></div>`).join("");
+
+// 09 · colores de apoyo con contraste
+const apoyo = [
+  ["Verde profundo", "#0E766E", "Texto verde sobre claro", "5,0 : 1 sobre #F3F4F8 · AA"],
+  ["Texto", "#F5F6FA", "Texto sobre tinta", "17,3 : 1 · AAA"],
+  ["Gris", "#9AA0B8", "Texto secundario", "7,2 : 1 sobre tinta · AAA"],
+  ["Ámbar", "#F5B544", "Reserva pendiente", "10,3 : 1 sobre tinta · AAA"],
+];
+document.getElementById("apoyo").innerHTML = apoyo.map(([n, h, u, c]) => `
+  <div class="caja"><div style="height:90px;background:${h}"></div><div style="padding:16px 18px"><b class="sora">${n}</b> <span style="color:var(--gris)">${h}</span>
+  <div style="color:var(--gris);font-size:13px;margin-top:6px">${u}<br><span style="color:var(--texto)">${c}</span></div></div></div>`).join("");
+
+// 11 · íconos de línea
+const ic = {
+  "Check-in": '<path d="M4 12h12M12 8l4 4-4 4"/><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/>',
+  "Mascotas": '<circle cx="7" cy="8" r="1.6"/><circle cx="12" cy="6" r="1.6"/><circle cx="17" cy="8" r="1.6"/><path d="M8 17c0-3 2-5 4-5s4 2 4 5c0 2-2 2-4 2s-4 0-4-2z"/>',
+  "Cochera": '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M10 16V8h3a2.5 2.5 0 0 1 0 5h-3"/>',
+  "Desayuno": '<path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16M9 4v2M12 3v3"/>',
+  "Wi-Fi": '<path d="M3 9a13 13 0 0 1 18 0M6 12.5a8.5 8.5 0 0 1 12 0M9 16a4 4 0 0 1 6 0"/><circle cx="12" cy="19" r=".8"/>',
+  "Calendario": '<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+  "Huéspedes": '<circle cx="9" cy="8" r="3"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.3"/><path d="M16 14c3 0 5 1.6 5 4"/>',
+  "Recepción": '<path d="M4 17h16M6 17a6 6 0 0 1 12 0M12 9V7M10 7h4"/>',
+};
+document.getElementById("iconos").innerHTML = Object.entries(ic).map(([n, d]) => `
+  <div style="background:var(--tinta);border:1px solid var(--borde);border-radius:16px;padding:18px 10px;text-align:center">
+  <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#2DD4BF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>
+  <div style="font-size:13px;color:var(--gris);margin-top:8px">${n}</div></div>`).join("");
+
+// 11 · patrón
+let p = "";
+for (let y = -1; y < 6; y++) for (let x = -1; x < 9; x++)
+  p += `<g transform="translate(${x * 74 + (y % 2) * 37} ${y * 64}) rotate(${(x + y) % 2 ? 0 : 90} 32 32)" opacity="${(x * 7 + y * 3) % 5 === 0 ? 1 : .22}"><g fill="none" stroke="#2DD4BF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" transform="translate(14 14) scale(.55)">${LLAVE}</g></g>`;
+document.getElementById("patron").innerHTML = `<svg width="100%" height="100%" style="background:#171C2E">${p}</svg>`;
+
+// 14 · QR decorativo (no lleva a ningún lado)
+let q = ""; const r = (i) => (Math.sin(i * 12.9898) * 43758.5453) % 1;
+for (let i = 0; i < 21; i++) for (let j = 0; j < 21; j++) {
+  const ojo = (a, b) => i >= a && i < a + 7 && j >= b && j < b + 7;
+  const enOjo = ojo(0, 0) || ojo(0, 14) || ojo(14, 0);
+  let on = enOjo ? ((i % 14 === 0 || i % 14 === 6 || j % 14 === 0 || j % 14 === 6) || (i % 14 >= 2 && i % 14 <= 4 && j % 14 >= 2 && j % 14 <= 4)) : Math.abs(r(i * 21 + j)) > .5;
+  if (on) q += `<rect x="${130 + j * 4.76}" y="${170 + i * 4.76}" width="4.8" height="4.8"/>`;
+}
+document.getElementById("qr").innerHTML = q;
+
+
+// formas geométricas decorativas
+const GEO = {
+  a: `<svg width="260" height="200" viewBox="0 0 260 200" fill="none" stroke="#2DD4BF" stroke-width="1.5" opacity=".55">
+      <circle cx="40" cy="40" r="28"/><circle cx="40" cy="40" r="6" fill="#2DD4BF" stroke="none"/>
+      <rect x="110" y="20" width="44" height="44" rx="6" transform="rotate(45 132 42)"/>
+      <path d="M200 20h40M220 0v40" /><path d="M30 130 l40 -40 l40 40z"/>
+      ${Array.from({length: 16}, (_, i) => `<circle cx="${150 + (i % 4) * 18}" cy="${110 + Math.floor(i / 4) * 18}" r="2" fill="#2DD4BF" stroke="none"/>`).join("")}</svg>`,
+  b: `<svg width="240" height="150" viewBox="0 0 240 150" fill="none">
+      <path d="M120 140a70 70 0 0 1 140 0" stroke="#0E766E" stroke-width="2" opacity=".5" transform="translate(-40 0)"/>
+      <circle cx="200" cy="40" r="34" fill="#2DD4BF" opacity=".9"/><circle cx="200" cy="40" r="34" fill="url(#gb)"/>
+      <rect x="40" y="10" width="54" height="54" rx="10" stroke="#0E1220" stroke-width="2" transform="rotate(18 67 37)"/>
+      <path d="M20 120 l30 -30 l30 30z" fill="#0E1220" opacity=".85"/>
+      ${Array.from({length: 12}, (_, i) => `<circle cx="${110 + (i % 4) * 14}" cy="${100 + Math.floor(i / 4) * 14}" r="2" fill="#0E766E"/>`).join("")}
+      <defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#0E766E" stop-opacity=".6"/></linearGradient></defs></svg>`,
+};
+document.querySelectorAll("[data-geo]").forEach((e) => (e.innerHTML = GEO[e.dataset.geo]));
+
+// mostrar sólo la slide pedida: slides.html#3
+const n = Math.max(1, +location.hash.slice(1) || 1);
+document.querySelectorAll(".slide")[n - 1].classList.add("activa");
+</script>
+</body>
+</html>
