@@ -1,0 +1,16 @@
+{
+  "name": "visu-hotel",
+  "version": "0.1.0",
+  "description": "Asistente que responde consultas y toma reservas para un hotel ficticio",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "chat": "node cli.js",
+    "test": "node --test pruebas/*.test.js",
+    "evaluar": "node pruebas/evaluar.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.5.0"
+  }
+}

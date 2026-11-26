@@ -1,0 +1,6 @@
+data/estado.json
+datos/crudo/
+.env
+node_modules/
+pruebas/resultados.json
+datos/powerbi/
