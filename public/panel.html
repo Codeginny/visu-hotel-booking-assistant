@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visu Hotel · Panel</title>
+  <link rel="icon" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body class="panel">
+  <header class="barra">
+    <a class="marca" href="./"><img src="logo.svg" alt="" width="42" height="42"><span>Visu <b>Hotel</b></span></a>
+    <span class="hotel">Hotel Lumbre · Recepción</span>
+    <a class="boton secundario" href="./">Abrir chat del huésped</a>
+  </header>
+
+  <main class="contenido">
+    <section class="kpis" id="kpis"></section>
+
+    <nav class="pestanas" role="tablist">
+      <button role="tab" data-vista="reservas" aria-selected="true">Reservas</button>
+      <button role="tab" data-vista="sinRespuesta">Sin respuesta <span class="contador" id="c-sr"></span></button>
+      <button role="tab" data-vista="conversaciones">Conversaciones</button>
+      <button role="tab" data-vista="correcciones">Respuestas corregidas</button>
+    </nav>
+
+    <section id="vista" class="vista"></section>
+  </main>
+
+  <dialog id="dialogo" class="dialogo">
+    <form method="dialog" id="form-correccion">
+      <h3>Corregir respuesta</h3>
+      <p class="ayuda">Lo que escribas acá pasa a ser la respuesta oficial. El asistente la usa desde ahora cuando le pregunten algo parecido.</p>
+      <label>Pregunta del huésped<textarea name="pregunta" rows="2" required></textarea></label>
+      <label class="mala" hidden>Respuesta que dio el asistente<textarea name="mala" rows="3" readonly></textarea></label>
+      <label>Respuesta correcta<textarea name="respuesta" rows="4" required placeholder="Ej.: Sí, el jardín tiene parrilla y se puede usar hasta las 22 h."></textarea></label>
+      <input type="hidden" name="sinRespuestaId">
+      <div class="botones">
+        <button class="boton secundario" value="cancelar" formnovalidate>Cancelar</button>
+        <button class="boton principal" value="guardar">Guardar corrección</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>

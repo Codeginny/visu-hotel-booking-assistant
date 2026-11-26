@@ -1,0 +1,102 @@
+:root {
+  --tinta: #0E1220;
+  --superficie: #171C2E;
+  --borde: #262C44;
+  --acento: #2DD4BF;
+  --acento-hondo: #0E766E;
+  --texto: #F5F6FA;
+  --suave: #9AA0B8;
+  --exito: #34D399;
+  --pendiente: #F5B544;
+  --borde-control: #6B7290;
+  --burbuja-yo: #2DD4BF;
+  --burbuja-hotel: #1F2539;
+  --radio: 18px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; background: var(--tinta); color: var(--texto);
+  font: 15px/1.5 Inter, system-ui, sans-serif;
+  background-image: radial-gradient(60% 50% at 85% 10%, rgba(45,212,191,.16), transparent 70%);
+}
+h1, h2, h3, .marca { font-family: Sora, Inter, sans-serif; letter-spacing: -.02em; }
+a { color: inherit; }
+
+.escena { max-width: 1120px; margin: 0 auto; padding: 48px 24px; display: grid; grid-template-columns: 1fr 400px; gap: 64px; align-items: center; min-height: 100vh; }
+.marca { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-size: 24px; font-weight: 600; }
+.marca b { color: var(--acento); font-weight: 600; }
+.intro h1 { font-size: clamp(36px, 5vw, 58px); line-height: 1.05; margin: 32px 0 16px; }
+.intro h1 em { font-style: normal; color: var(--acento); }
+.bajada { color: var(--suave); font-size: 17px; max-width: 46ch; }
+.pasos { list-style: none; padding: 0; margin: 28px 0; display: grid; gap: 12px; counter-reset: p; }
+.pasos li { counter-increment: p; position: relative; padding-left: 40px; color: var(--suave); }
+.pasos li::before { content: counter(p, decimal-leading-zero); position: absolute; left: 0; font-family: Sora; font-weight: 700; color: var(--acento); }
+.pasos b { color: var(--texto); font-weight: 600; }
+.boton { display: inline-block; padding: 12px 20px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 0; cursor: pointer; font: inherit; }
+.boton.principal { background: var(--acento); color: var(--tinta); }
+.boton.secundario { border: 1px solid var(--borde); color: var(--texto); }
+.boton:hover { filter: brightness(1.08); }
+.aviso { color: var(--suave); font-size: 13px; margin-top: 28px; }
+
+/* Teléfono */
+.telefono { height: min(760px, calc(100vh - 48px)); background: var(--superficie); border: 1px solid var(--borde); border-radius: 36px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 30px 80px -20px rgba(0,0,0,.6), 0 0 0 8px #0A0D18; }
+.chat-cabecera { display: flex; align-items: center; gap: 12px; padding: 18px 18px 14px; border-bottom: 1px solid var(--borde); }
+.chat-cabecera img { border-radius: 12px; }
+.chat-cabecera div { flex: 1; display: flex; flex-direction: column; line-height: 1.2; }
+.chat-cabecera span { color: var(--exito); font-size: 12px; }
+.icono { background: none; border: 1px solid var(--borde); color: var(--suave); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; }
+.mensajes { flex: 1; overflow-y: auto; padding: 18px 14px; display: flex; flex-direction: column; gap: 8px; scroll-behavior: smooth; }
+.burbuja { max-width: 84%; padding: 9px 13px; border-radius: var(--radio); white-space: pre-line; word-wrap: break-word; animation: entra .18s ease-out; }
+.burbuja.hotel { background: var(--burbuja-hotel); align-self: flex-start; border-bottom-left-radius: 6px; }
+.burbuja.yo { background: var(--burbuja-yo); color: var(--tinta); align-self: flex-end; border-bottom-right-radius: 6px; font-weight: 500; }
+.burbuja time { display: block; font-size: 11px; opacity: .6; text-align: right; margin-top: 2px; }
+.escribiendo { display: inline-flex; gap: 4px; }
+.escribiendo i { width: 6px; height: 6px; border-radius: 50%; background: var(--suave); animation: pulso 1s infinite; }
+.escribiendo i:nth-child(2) { animation-delay: .15s; } .escribiendo i:nth-child(3) { animation-delay: .3s; }
+.herramienta { align-self: flex-start; font-size: 13px; color: var(--acento); background: rgba(45,212,191,.08); border: 1px solid rgba(45,212,191,.3); border-radius: 999px; padding: 3px 12px; }
+.nueva { margin-left: auto; background: none; border: 1px solid var(--borde-control); color: var(--texto); border-radius: 999px; padding: 6px 12px; font: 500 13px Inter, sans-serif; cursor: pointer; white-space: nowrap; }
+.nueva:hover { border-color: var(--acento); color: var(--acento); }
+.opciones { display: flex; flex-direction: column; gap: 8px; align-self: stretch; }
+.opcion { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; background: var(--tinta); border: 1px solid var(--borde); border-radius: 14px; padding: 12px 14px; animation: entra .2s ease-out; }
+.opcion h4 { font: 600 15px Sora, Inter, sans-serif; margin: 0; }
+.opcion small { color: var(--suave); font-size: 12px; }
+.opcion .precio { font: 700 17px Sora, Inter, sans-serif; text-align: right; }
+.opcion .boton { grid-column: 1 / -1; padding: 8px; text-align: center; font-size: 14px; }
+.opcion .boton:disabled { opacity: .45; cursor: default; }
+
+/* Tarjeta de reserva */
+.tarjeta { align-self: stretch; background: var(--tinta); border: 1px solid var(--pendiente); border-radius: var(--radio); padding: 16px; animation: entra .2s ease-out; }
+.tarjeta h3 { margin: 0 0 4px; font-size: 16px; }
+.tarjeta .etiqueta { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding: 3px 9px; border-radius: 999px; background: rgba(245,181,68,.15); color: var(--pendiente); margin-bottom: 10px; }
+.tarjeta.confirmada { border-color: var(--exito); }
+.tarjeta.confirmada .etiqueta { background: rgba(52,211,153,.15); color: var(--exito); }
+.tarjeta.cancelada { opacity: .55; border-color: var(--borde); }
+.tarjeta dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 10px 0 14px; font-size: 14px; }
+.tarjeta dt { color: var(--suave); } .tarjeta dd { margin: 0; text-align: right; }
+.tarjeta .total { font-family: Sora; font-size: 20px; font-weight: 700; }
+.tarjeta .botones { display: flex; gap: 8px; }
+.tarjeta .botones .boton { flex: 1; padding: 10px; text-align: center; }
+
+.sugerencias { display: flex; gap: 6px; overflow-x: auto; padding: 0 14px 10px; scrollbar-width: none; }
+.sugerencias button { flex: none; background: transparent; color: var(--texto); border: 1px solid var(--borde); border-radius: 999px; padding: 6px 12px; font: 13px Inter; cursor: pointer; }
+.sugerencias button:hover { border-color: var(--acento); color: var(--acento); }
+.redactar { display: flex; gap: 8px; padding: 12px 14px 18px; border-top: 1px solid var(--borde); }
+.redactar input { flex: 1; background: var(--tinta); border: 1px solid var(--borde-control); border-radius: 999px; padding: 12px 16px; color: var(--texto); font: inherit; outline: none; }
+.redactar input:focus { border-color: var(--acento); }
+.enviar { width: 46px; border-radius: 50%; border: 0; background: var(--acento); color: var(--tinta); font-size: 17px; cursor: pointer; }
+
+@keyframes entra { from { opacity: 0; transform: translateY(6px); } }
+@keyframes pulso { 50% { opacity: .3; } }
+
+.solo-movil { display: none; }
+@media (max-width: 860px) {
+  .escena { grid-template-columns: 1fr; gap: 32px; padding: 24px 16px; }
+  .intro h1 { margin-top: 20px; }
+  .telefono { height: 78vh; border-radius: 28px; }
+  .solo-movil { display: inline-block !important; margin-right: 8px; }
+  .telefono { scroll-margin-top: 16px; }
+  #entrada { font-size: 16px; }
+  .tarjeta .botones .boton { font-size: 14px; white-space: nowrap; padding: 10px 8px; }
+}
+.sugerencias[hidden] { display: none; }
+.boton.secundario { background: transparent; }

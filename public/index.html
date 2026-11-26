@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visu Hotel · Chat de reservas</title>
+  <link rel="icon" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <main class="escena">
+    <section class="intro">
+      <a class="marca" href="./"><img src="logo.svg" alt="" width="52" height="52"><span>Visu <b>Hotel</b></span></a>
+      <h1>Tu recepción, <em>abierta</em> las 24 horas.</h1>
+      <p class="bajada">Un asistente que responde las consultas de los huéspedes y deja reservas listas para confirmar, sin inventar precios: todo sale de los datos del hotel.</p>
+      <ol class="pasos">
+        <li><b>Preguntá</b> como en WhatsApp: horarios, mascotas, cancelación.</li>
+        <li><b>Pedí precio</b> con fechas y cantidad de personas.</li>
+        <li><b>Reservá</b> y confirmá en la tarjeta. Lo que no sabe, lo deriva a recepción.</li>
+      </ol>
+      <div class="acciones">
+        <a class="boton principal solo-movil" href="#chat">Probar el chat ↓</a>
+        <a class="boton secundario" href="panel.html">Ver panel del hotel →</a>
+      </div>
+      <p class="aviso">Demo con datos ficticios · Hotel Lumbre no existe.</p>
+    </section>
+
+    <section class="telefono" id="chat" aria-label="Chat con Hotel Lumbre">
+      <header class="chat-cabecera">
+        <img src="logo.svg" alt="" width="44" height="44">
+        <div><strong>Hotel Lumbre</strong><span id="estado">en línea</span></div>
+        <button id="reiniciar" class="nueva" title="Empezar una conversación nueva">↻ Nueva charla</button>
+      </header>
+      <div id="mensajes" class="mensajes" aria-live="polite"></div>
+      <div id="sugerencias" class="sugerencias"></div>
+      <form id="formulario" class="redactar">
+        <input id="entrada" autocomplete="off" placeholder="Escribí tu consulta…" aria-label="Mensaje">
+        <button class="enviar" aria-label="Enviar">➤</button>
+      </form>
+    </section>
+  </main>
+  <script src="config.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>
