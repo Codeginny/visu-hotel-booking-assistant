@@ -1,0 +1,35 @@
+{
+  "_aviso": "Hotel ficticio para la demo. Ningún dato corresponde a un establecimiento real.",
+  "hotel": {
+    "nombre": "Hotel Lumbre",
+    "ciudad": "San Carlos de Bariloche, Río Negro",
+    "direccion": "Av. de los Pioneros 4820 (dirección ficticia)",
+    "telefono": "+54 294 400-0000 (ficticio)",
+    "email": "reservas@hotellumbre.example",
+    "moneda": "ARS",
+    "estrellas": 4
+  },
+  "habitaciones": [
+    { "id": "std", "nombre": "Estándar", "capacidad": 2, "camas": "1 matrimonial o 2 individuales", "vista": "jardín", "cantidad": 8, "tarifa_noche": 98000, "incluye": ["desayuno", "wifi"] },
+    { "id": "sup", "nombre": "Superior vista al lago", "capacidad": 2, "camas": "1 queen", "vista": "lago Nahuel Huapi", "cantidad": 6, "tarifa_noche": 132000, "incluye": ["desayuno", "wifi", "balcón"] },
+    { "id": "fam", "nombre": "Familiar", "capacidad": 4, "camas": "1 matrimonial + 2 individuales", "vista": "jardín", "cantidad": 4, "tarifa_noche": 165000, "incluye": ["desayuno", "wifi", "frigobar"] },
+    { "id": "suite", "nombre": "Suite Lumbre", "capacidad": 3, "camas": "1 king + sofá cama", "vista": "lago Nahuel Huapi", "cantidad": 2, "tarifa_noche": 235000, "incluye": ["desayuno", "wifi", "hidromasaje", "late check-out"] }
+  ],
+  "temporadas": [
+    { "nombre": "alta invierno", "desde": "07-01", "hasta": "08-31", "recargo": 0.35 },
+    { "nombre": "alta verano", "desde": "12-20", "hasta": "02-28", "recargo": 0.20 }
+  ],
+  "politicas": {
+    "check_in": "desde las 14:00",
+    "check_out": "hasta las 10:00",
+    "late_check_out": "hasta las 14:00 con 50 % de una noche, sujeto a disponibilidad (incluido en la Suite)",
+    "cancelacion": "Sin cargo hasta 72 horas antes del ingreso. Después se cobra la primera noche. No-show: se cobra la estadía completa.",
+    "mascotas": "Se aceptan perros y gatos de hasta 10 kg sólo en habitaciones Estándar, con un cargo de ARS 15.000 por estadía.",
+    "ninos": "Menores de 3 años sin cargo en cuna (pedirla al reservar). Desde 3 años cuentan como huésped.",
+    "pago": "Seña del 30 % para confirmar; el resto se abona al ingresar. Efectivo, transferencia o tarjeta.",
+    "estacionamiento": "Cubierto y sin cargo, sujeto a disponibilidad.",
+    "desayuno": "Buffet de 7:30 a 10:30 en el salón principal."
+  },
+  "servicios": ["spa con sauna (cargo extra)", "traslado al aeropuerto a pedido (cargo extra)", "guarda de esquíes", "wifi en todo el hotel"],
+  "no_ofrece": ["piscina", "gimnasio", "restaurante para cenas"]
+}
