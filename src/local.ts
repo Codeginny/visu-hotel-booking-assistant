@@ -1,25 +1,28 @@
 // Modo local: intérprete por reglas, sin API ni costo. Se usa cuando no hay ANTHROPIC_API_KEY.
-// Lleva el estado de la reserva en conv.datos y responde sólo con hotel.json y src/hotel.js.
-import { hotel, disponibilidad, validarFechas } from "./hotel.js";
-import { store } from "./store.js";
+// Lleva el estado de la reserva en conv.datos y responde sólo con hotel.json y src/hotel.ts.
+import { hotel, disponibilidad, validarFechas } from "./hotel.ts";
+import { store } from "./store.ts";
+import type { Conversacion, Correccion, Disponibilidad, Opcion, Reserva } from "./tipos.ts";
+
+type Resumida = Pick<Opcion, "habitacion" | "nombre" | "total" | "sena" | "noches">;
 
 const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-const pesos = (n) => `$ ${n.toLocaleString("es-AR")}`;
-const corta = (f) => `${+f.slice(8)}/${+f.slice(5, 7)}`;
-const pad = (n) => String(n).padStart(2, "0");
-const sinTildes = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
+const corta = (f: string) => `${+f.slice(8)}/${+f.slice(5, 7)}`;
+const pad = (n: number) => String(n).padStart(2, "0");
+const sinTildes = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
 // Próxima vez que llega dd/mm (si no dicen el año).
-function fecha(dia, mes, anio) {
+function fecha(dia: number, mes: number, anio?: number | "" | undefined) {
   const hoy = new Date().toISOString().slice(0, 10);
   let a = anio ? (anio < 100 ? 2000 + anio : anio) : Number(hoy.slice(0, 4));
   let f = `${a}-${pad(mes)}-${pad(dia)}`;
   if (!anio && f < hoy) f = `${a + 1}-${pad(mes)}-${pad(dia)}`;
   return f;
 }
-const sumarDias = (f, n) => new Date(Date.parse(`${f}T12:00:00Z`) + n * 864e5).toISOString().slice(0, 10);
+const sumarDias = (f: string, n: number) => new Date(Date.parse(`${f}T12:00:00Z`) + n * 864e5).toISOString().slice(0, 10);
 
-export function leerFechas(t) {
+export function leerFechas(t: string): { ingreso: string; egreso: string } | null {
   const mes = `(${MESES.join("|")})`;
   let m = t.match(new RegExp(`(\\d{1,2})\\s*(?:de\\s*${mes}\\s*)?(?:al|hasta el|a)\\s*(\\d{1,2})\\s*de\\s*${mes}`));
   if (m) return { ingreso: fecha(+m[1], MESES.indexOf(m[2] || m[4]) + 1), egreso: fecha(+m[3], MESES.indexOf(m[4]) + 1) };
@@ -28,14 +31,14 @@ export function leerFechas(t) {
   const n = t.match(/(\d{1,2})\s*noches?/);
   m = t.match(new RegExp(`(\\d{1,2})\\s*de\\s*${mes}`)) || t.match(/(\d{1,2})\/(\d{1,2})/);
   if (m && n) {
-    const ingreso = isNaN(m[2]) ? fecha(+m[1], MESES.indexOf(m[2]) + 1) : fecha(+m[1], +m[2]);
+    const ingreso = isNaN(Number(m[2])) ? fecha(+m[1], MESES.indexOf(m[2]) + 1) : fecha(+m[1], +m[2]);
     return { ingreso, egreso: sumarDias(ingreso, +n[1]) };
   }
   return null;
 }
 
-function leerHuespedes(t) {
-  const palabras = { uno: 1, una: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6 };
+function leerHuespedes(t: string): number | null {
+  const palabras: Record<string, number> = { uno: 1, una: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6 };
   const m = t.match(/(\d+|uno|una|dos|tres|cuatro|cinco|seis)\s*(personas|huespedes|adultos|pasajeros)/) || t.match(/somos\s*(\d+|dos|tres|cuatro|cinco|seis)/);
   if (m) return palabras[m[1]] || +m[1];
   const para = t.match(/para\s*(\d|dos|tres|cuatro)\b(?!\s*(de|noches?|\/))/);
@@ -45,12 +48,12 @@ function leerHuespedes(t) {
   return null;
 }
 
-const HABITACION = [["suite", /suite/], ["sup", /superior|vista al lago|lago/], ["fam", /familiar/], ["std", /estandar|standard|comun|la mas barata|economica/]];
-const leerHabitacion = (t) => HABITACION.find(([, re]) => re.test(t))?.[0] || null;
+const HABITACION: [string, RegExp][] = [["suite", /suite/], ["sup", /superior|vista al lago|lago/], ["fam", /familiar/], ["std", /estandar|standard|comun|la mas barata|economica/]];
+const leerHabitacion = (t: string) => HABITACION.find(([, re]) => re.test(t))?.[0] || null;
 
 // Preguntas frecuentes: palabras clave → respuesta armada con hotel.json.
 const p = hotel.politicas;
-const FAQ = [
+const FAQ: [RegExp, string][] = [
   [/check.?in|hora de (entrada|ingreso)|a que hora (entro|llego|puedo entrar)/, `El check-in es ${p.check_in} y el check-out ${p.check_out}.`],
   [/check.?out|hora de salida|a que hora (salgo|me voy|hay que dejar)/, `El check-out es ${p.check_out}. Late check-out: ${p.late_check_out}.`],
   [/cancel|devolu|reembols/, `Política de cancelación: ${p.cancelacion}`],
@@ -66,14 +69,14 @@ const FAQ = [
   [/donde|direccion|ubicacion|como llego/, `Estamos en ${hotel.hotel.direccion}, ${hotel.hotel.ciudad}.`],
   [/habitaciones|que tipo|que opciones/, `Tenemos: ${hotel.habitaciones.map((h) => `${h.nombre} (hasta ${h.capacidad})`).join(", ")}. Si me pasás fechas y cantidad de personas te digo precio y disponibilidad.`],
 ];
-const NO_OFRECE = { piscina: /pileta|piscina/, gimnasio: /gimnasio|gym/, "restaurante para cenas": /cena|restaurante|cenar/ };
+const NO_OFRECE: Record<string, RegExp> = { piscina: /pileta|piscina/, gimnasio: /gimnasio|gym/, "restaurante para cenas": /cena|restaurante|cenar/ };
 
-function noOfrece(t) {
+function noOfrece(t: string) {
   const item = hotel.no_ofrece.find((x) => NO_OFRECE[x]?.test(t));
   return item ? `No, el hotel no tiene ${item}. Si querés, te paso con recepción para recomendaciones de la zona.` : null;
 }
 
-function textoOpciones(d) {
+function textoOpciones(d: Extract<Disponibilidad, { opciones: Opcion[] }>) {
   const libres = d.opciones.filter((o) => o.disponible);
   if (!libres.length) return "Para esas fechas y esa cantidad de personas no me queda lugar. ¿Querés probar con otras fechas?";
   const n = libres[0].noches;
@@ -82,12 +85,14 @@ function textoOpciones(d) {
     "\n¿Cuál te gustaría reservar?";
 }
 
+const opcionesDe = (r: Disponibilidad): Opcion[] => (r.error === undefined ? r.opciones : []);
+
 // Corrección de recepción que corresponde a esta pregunta: comparte al menos la mitad de sus palabras con contenido.
 const VACIAS = new Set(["puede", "pueden", "puedo", "hacer", "tienen", "tiene", "quiero", "quisiera", "saber", "donde", "cuando", "cuanto", "hotel", "habitacion"]);
-const palabras = (s) => sinTildes(s).split(/[^a-zñ0-9]+/).filter((w) => w.length > 3 && !VACIAS.has(w));
+const palabras = (s: string) => sinTildes(s).split(/[^a-zñ0-9]+/).filter((w) => w.length > 3 && !VACIAS.has(w));
 // Nombre escrito sin «me llamo»: «Lucía Gómez, lucia@correo.com» o sólo «Lucía Gómez».
 const NO_NOMBRE = new Set(["si", "sí", "no", "ok", "dale", "listo", "gracias", "hola", "bueno", "perfecto", "quiero", "reservar", "reserva", "genial"]);
-function nombreSuelto(texto, contacto) {
+function nombreSuelto(texto: string, contacto?: string): string | undefined {
   if (/\?/.test(texto)) return undefined;
   const resto = (contacto ? texto.replace(contacto, " ") : texto)
     .replace(/\b(mi|el|es|mail|email|correo|tel[eé]fono|tel|celular|whatsapp|contacto)\b/giu, " ")
@@ -98,9 +103,9 @@ function nombreSuelto(texto, contacto) {
   return palabras.map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
 }
 
-function buscarCorreccion(t) {
+function buscarCorreccion(t: string) {
   const enTexto = new Set(palabras(t));
-  let mejor = null, puntaje = 0;
+  let mejor: Correccion | null = null, puntaje = 0;
   for (const c of store.estado.correcciones) {
     const clave = palabras(c.pregunta);
     const p = clave.filter((w) => enTexto.has(w)).length / (clave.length || 1);
@@ -109,12 +114,12 @@ function buscarCorreccion(t) {
   return mejor;
 }
 
-export function responderLocal(conv, texto) {
+export function responderLocal(conv: Conversacion, texto: string) {
   const t = sinTildes(texto);
   const d = (conv.datos ||= {});
-  const usadas = [];
-  let reserva = null;
-  let opciones = null, resumen = null;
+  const usadas: { nombre: string; entrada: unknown; ok: boolean }[] = [];
+  let reserva: Reserva | null = null;
+  let opciones: Resumida[] | null = null, resumen: string | null = null;
   const corregida = buscarCorreccion(t);
 
   // 1) Lo que el huésped aporta en este mensaje.
@@ -129,7 +134,7 @@ export function responderLocal(conv, texto) {
   if (/mascota|perr|gat/.test(t) && d.esperando) d.pedidos = [d.pedidos, "viaja con mascota"].filter(Boolean).join("; ");
   if (/cuna/.test(t) && d.esperando) d.pedidos = [d.pedidos, "cuna"].filter(Boolean).join("; ");
 
-  const fin = (respuesta) => ({ respuesta, herramientas: usadas, reserva, opciones, resumen });
+  const fin = (respuesta: string) => ({ respuesta, herramientas: usadas, reserva, opciones, resumen });
 
   // 2) Pedidos de cambio de reglas o descuentos que no existen.
   if (/ignora|olvida (tus|las) (reglas|instrucciones)|descuento|gratis|precio especial/.test(t))
@@ -138,17 +143,19 @@ export function responderLocal(conv, texto) {
   // 3) Flujo de reserva.
   if (d.esperando === "datos" && d.nombre && d.contacto) {
     const error = validarFechas(d.ingreso, d.egreso);
-    const op = !error && disponibilidad(store.estado.reservas, d).opciones.find((o) => o.habitacion === d.habitacion);
+    const consulta = disponibilidad(store.estado.reservas, d);
+    const op = !error && consulta.error === undefined ? consulta.opciones.find((o) => o.habitacion === d.habitacion) : undefined;
     usadas.push({ nombre: "crear_reserva_pendiente", entrada: { ...d }, ok: Boolean(op?.disponible) });
-    const repetida = !error && store.buscarDuplicada(d);
+    const repetida = !error && store.buscarDuplicada(d as Reserva);
     if (repetida) {
       reserva = repetida; conv.datos = {};
       return fin(`Esa reserva ya la tenías ${repetida.estado === "confirmada" ? "confirmada" : "pendiente"}, ${repetida.nombre}: no hace falta hacerla de nuevo. Te la muestro abajo.`);
     }
     if (!op?.disponible) { d.esperando = null; return fin(`No pude guardar la reserva: ${error || op?.motivo}. ¿Probamos otras fechas?`); }
-    reserva = store.crearReserva({ habitacion: d.habitacion, ingreso: d.ingreso, egreso: d.egreso, huespedes: d.huespedes, nombre: d.nombre, contacto: d.contacto, pedidos: d.pedidos, conversacion: conv.id, total: op.total, sena: op.sena, moneda: op.moneda, nombreHabitacion: op.nombre });
+    reserva = store.crearReserva({ habitacion: d.habitacion!, ingreso: d.ingreso!, egreso: d.egreso!, huespedes: d.huespedes!, nombre: d.nombre, contacto: d.contacto, pedidos: d.pedidos, conversacion: conv.id, total: op.total, sena: op.sena, moneda: op.moneda, nombreHabitacion: op.nombre });
     conv.datos = {};
-    return fin(`Listo, ${reserva.nombre}: dejé la reserva pendiente. ${op.nombre}, del ${corta(reserva.ingreso)} al ${corta(reserva.egreso)}, ${pesos(op.total)} (seña ${pesos(op.sena)}). Tocá «Confirmar reserva» en la tarjeta para guardarla.`);
+    const nueva = reserva;
+    return fin(`Listo, ${nueva.nombre}: dejé la reserva pendiente. ${op.nombre}, del ${corta(nueva.ingreso)} al ${corta(nueva.egreso)}, ${pesos(op.total)} (seña ${pesos(op.sena)}). Tocá «Confirmar reserva» en la tarjeta para guardarla.`);
   }
   const falta = d.esperando === "datos" ? `Para dejarla a tu nombre me falta ${!d.nombre ? "tu nombre y apellido" : "un teléfono o email de contacto"}.` : null;
   if (falta && (nombre || contacto)) return fin(falta);
@@ -156,14 +163,14 @@ export function responderLocal(conv, texto) {
   const quiereReservar = /reserv|la quiero|me quedo con|dale|esa|tomo/.test(t);
   const soloPrecio = /cuanto|precio|tarifa|sale|cuesta/.test(t) && !quiereReservar;
   if (d.ingreso && d.huespedes && d.habitacion && soloPrecio) {
-    const op = disponibilidad(store.estado.reservas, d).opciones?.find((o) => o.habitacion === d.habitacion);
+    const op = opcionesDe(disponibilidad(store.estado.reservas, d)).find((o) => o.habitacion === d.habitacion);
     usadas.push({ nombre: "consultar_disponibilidad", entrada: { ingreso: d.ingreso, egreso: d.egreso, huespedes: d.huespedes, habitacion: d.habitacion }, ok: Boolean(op) });
     if (!op) return fin("Revisá las fechas, por favor: no pude calcular ese precio.");
     if (!op.disponible) return fin(`La ${op.nombre} no está disponible: ${op.motivo}. ¿Querés que te pase otras opciones?`);
-    return fin(`La ${op.nombre} del ${corta(d.ingreso)} al ${corta(d.egreso)} sale ${pesos(op.total)} en total (${op.noches} noche${op.noches > 1 ? "s" : ""}, seña ${pesos(op.sena)}). ¿Querés que te la reserve?`);
+    return fin(`La ${op.nombre} del ${corta(d.ingreso)} al ${corta(d.egreso!)} sale ${pesos(op.total)} en total (${op.noches} noche${op.noches > 1 ? "s" : ""}, seña ${pesos(op.sena)}). ¿Querés que te la reserve?`);
   }
   if (d.ingreso && d.huespedes && d.habitacion && (quiereReservar || hab)) {
-    const op = disponibilidad(store.estado.reservas, d).opciones?.find((o) => o.habitacion === d.habitacion);
+    const op = opcionesDe(disponibilidad(store.estado.reservas, d)).find((o) => o.habitacion === d.habitacion);
     usadas.push({ nombre: "consultar_disponibilidad", entrada: { ingreso: d.ingreso, egreso: d.egreso, huespedes: d.huespedes, habitacion: d.habitacion }, ok: Boolean(op) });
     if (!op?.disponible) return fin(`La ${op?.nombre || "habitación"} no está disponible: ${op?.motivo || "revisá las fechas"}. ¿Querés otra opción?`);
     d.esperando = "datos";
@@ -171,7 +178,7 @@ export function responderLocal(conv, texto) {
   }
 
   // 4) Preguntas de información.
-  const conRecordatorio = (r) => fin(falta ? `${r}\n\n${falta}` : r);
+  const conRecordatorio = (r: string) => fin(falta ? `${r}\n\n${falta}` : r);
   if (corregida) return conRecordatorio(corregida.respuesta);
   const no = noOfrece(t); if (no) return conRecordatorio(no);
   const faq = FAQ.filter(([re]) => re.test(t)).map(([, r]) => r);
@@ -189,7 +196,7 @@ export function responderLocal(conv, texto) {
     if (!d.huespedes) return fin("¿Cuántas personas serían?");
     const r = disponibilidad(store.estado.reservas, d);
     usadas.push({ nombre: "consultar_disponibilidad", entrada: { ingreso: d.ingreso, egreso: d.egreso, huespedes: d.huespedes }, ok: !r.error });
-    if (r.error) { delete d.ingreso; delete d.egreso; return fin(r.error); }
+    if (r.error !== undefined) { delete d.ingreso; delete d.egreso; return fin(r.error); }
     // En el chat las habitaciones van en tarjetas; el texto completo queda para el historial y el modo sin interfaz.
     const libres = r.opciones.filter((o) => o.disponible);
     if (libres.length) {

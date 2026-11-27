@@ -6,9 +6,9 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 process.env.ESTADO = "data/evaluacion.json"; // estado aparte, no toca las reservas de la demo
-await import("../src/env.js");
-const { store } = await import("../src/store.js");
-const { responder, hayClave } = await import("../src/asistente.js");
+await import("../src/env.ts");
+const { store } = await import("../src/store.ts");
+const { responder, hayClave } = await import("../src/asistente.ts");
 
 const casos = JSON.parse(fs.readFileSync(path.join(here, "conversaciones.json"), "utf8"));
 store.reiniciar();

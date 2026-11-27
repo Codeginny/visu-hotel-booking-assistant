@@ -4,13 +4,21 @@
   "description": "Asistente que responde consultas y toma reservas para un hotel ficticio",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js",
-    "chat": "node cli.js",
-    "test": "node --test pruebas/*.test.js",
-    "evaluar": "node pruebas/evaluar.js"
+    "start": "node server.ts",
+    "dev": "node --watch server.ts",
+    "chat": "node cli.ts",
+    "test": "node --test pruebas/*.test.ts",
+    "evaluar": "node pruebas/evaluar.ts",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.7",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22.18"
   }
 }

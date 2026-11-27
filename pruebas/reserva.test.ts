@@ -6,8 +6,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 process.env.ESTADO = join(mkdtempSync(join(tmpdir(), "visu-")), "estado.json");
-const { store } = await import("../src/store.js");
-const { responderLocal } = await import("../src/local.js");
+const { store } = await import("../src/store.ts");
+const { responderLocal } = await import("../src/local.ts");
 
 const charla = (...mensajes) => {
   const conv = store.conversacion();

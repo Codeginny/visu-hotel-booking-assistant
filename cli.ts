@@ -1,10 +1,10 @@
-// Charla con el asistente por terminal: node cli.js
-import "./src/env.js";
+// Charla con el asistente por terminal: node cli.ts
+import "./src/env.ts";
 import readline from "node:readline/promises";
-import { responder } from "./src/asistente.js";
+import { responder } from "./src/asistente.ts";
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-let conversacion = null;
+let conversacion: string | undefined;
 console.log("Hotel Lumbre · escribí tu consulta (salir para terminar)\n");
 for (;;) {
   const texto = (await rl.question("Vos: ")).trim();
