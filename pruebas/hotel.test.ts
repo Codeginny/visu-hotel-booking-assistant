@@ -1,7 +1,7 @@
 // Pruebas de la lógica de tarifas y cupo (no usan la API del asistente).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { cotizar, disponibilidad, noches } from "../src/hotel.js";
+import { cotizar, disponibilidad, noches } from "../src/hotel.ts";
 
 test("cuenta noches sin incluir el día de salida", () => {
   assert.deepEqual(noches("2027-04-10", "2027-04-12"), ["2027-04-10", "2027-04-11"]);

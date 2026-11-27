@@ -1,15 +1,19 @@
 // Asistente de Hotel Lumbre: responde con datos de hotel.json y toma reservas con tool use.
-// Las tarifas y el cupo los calcula siempre el código (src/hotel.js), nunca el modelo.
+// Las tarifas y el cupo los calcula siempre el código (src/hotel.ts), nunca el modelo.
 import Anthropic from "@anthropic-ai/sdk";
-import { hotel, disponibilidad, validarFechas } from "./hotel.js";
-import { store } from "./store.js";
-import { responderLocal } from "./local.js";
+import { hotel, disponibilidad, validarFechas } from "./hotel.ts";
+import { store } from "./store.ts";
+import { responderLocal } from "./local.ts";
+import type { Conversacion, Opcion, Reserva } from "./tipos.ts";
+
+type Entrada = Record<string, any>;
+type Salida = { error?: string | null; reserva?: Reserva; opciones?: Opcion[]; [otro: string]: unknown };
 
 const MODEL = process.env.VISU_MODEL || "claude-sonnet-5-5";
 export const hayClave = Boolean(process.env.ANTHROPIC_API_KEY);
 const client = hayClave ? new Anthropic() : null;
 
-const herramientas = [
+const herramientas: Anthropic.Tool[] = [
   {
     name: "consultar_disponibilidad",
     description: "Devuelve qué habitaciones hay libres entre dos fechas, con el precio total calculado por el sistema (incluye recargos de temporada) y la seña del 30 %. Usala SIEMPRE antes de decir un precio o confirmar que hay lugar.",
@@ -52,7 +56,7 @@ const herramientas = [
   },
 ];
 
-function instrucciones() {
+function instrucciones(): Anthropic.TextBlockParam[] {
   const correcciones = store.estado.correcciones.map((c) => `- P: ${c.pregunta}\n  R: ${c.respuesta}`).join("\n");
   return [
     {
@@ -78,16 +82,18 @@ ${JSON.stringify({ ...hotel, temporadas: undefined }, null, 1)}`,
   ];
 }
 
-function ejecutar(nombre, input, conv) {
+function ejecutar(nombre: string, input: Entrada, conv: Conversacion): Salida {
   if (nombre === "consultar_disponibilidad") return disponibilidad(store.estado.reservas, input);
   if (nombre === "crear_reserva_pendiente") {
     const error = validarFechas(input.ingreso, input.egreso);
     if (error) return { error };
-    const repetida = store.buscarDuplicada(input);
+    const repetida = store.buscarDuplicada(input as Parameters<typeof store.buscarDuplicada>[0]);
     if (repetida) return { ok: true, repetida: true, aviso: "Ya existe esta misma reserva: mostrale la que tiene, no crees otra.", reserva: repetida };
-    const disp = disponibilidad(store.estado.reservas, input).opciones.find((o) => o.habitacion === input.habitacion);
+    const consulta = disponibilidad(store.estado.reservas, input);
+    if (consulta.error !== undefined) return { error: consulta.error };
+    const disp = consulta.opciones.find((o) => o.habitacion === input.habitacion);
     if (!disp?.disponible) return { error: disp?.motivo || "No hay cupo." };
-    const reserva = store.crearReserva({ ...input, conversacion: conv.id, total: disp.total, sena: disp.sena, moneda: disp.moneda, nombreHabitacion: disp.nombre });
+    const reserva = store.crearReserva({ ...(input as Pick<Reserva, "habitacion" | "ingreso" | "egreso" | "huespedes" | "nombre" | "contacto">), conversacion: conv.id, total: disp.total, sena: disp.sena, moneda: disp.moneda, nombreHabitacion: disp.nombre });
     conv.reservaPendiente = reserva.id;
     return { ok: true, reserva };
   }
@@ -99,7 +105,7 @@ function ejecutar(nombre, input, conv) {
 }
 
 // Un turno del huésped. Devuelve el texto de respuesta, las herramientas usadas y la reserva pendiente si se creó.
-export async function responder(idConv, texto) {
+export async function responder(idConv: string | undefined, texto: string) {
   const conv = store.conversacion(idConv);
   conv.mensajes.push({ role: "user", content: texto });
   if (!client) {
@@ -108,8 +114,8 @@ export async function responder(idConv, texto) {
     store.guardarConversacion();
     return { conversacion: conv.id, modo: "local", ...r };
   }
-  const usadas = [];
-  let reserva = null, opciones = null;
+  const usadas: { nombre: string; entrada: unknown; ok: boolean }[] = [];
+  let reserva: Reserva | null = null, opciones: Opcion[] | null = null;
 
   for (let vuelta = 0; vuelta < 6; vuelta++) {
     const res = await client.messages.create({
@@ -118,11 +124,11 @@ export async function responder(idConv, texto) {
     conv.mensajes.push({ role: "assistant", content: res.content });
     if (res.stop_reason !== "tool_use") {
       store.guardarConversacion();
-      const respuesta = res.content.filter((b) => b.type === "text").map((b) => b.text).join("\n").trim();
+      const respuesta = res.content.filter((b): b is Anthropic.TextBlock => b.type === "text").map((b) => b.text).join("\n").trim();
       return { conversacion: conv.id, respuesta, herramientas: usadas, reserva, opciones: reserva ? null : opciones };
     }
-    const resultados = res.content.filter((b) => b.type === "tool_use").map((b) => {
-      const salida = ejecutar(b.name, b.input, conv);
+    const resultados = res.content.filter((b): b is Anthropic.ToolUseBlock => b.type === "tool_use").map((b): Anthropic.ToolResultBlockParam => {
+      const salida = ejecutar(b.name, b.input as Entrada, conv);
       usadas.push({ nombre: b.name, entrada: b.input, ok: !salida.error });
       if (salida.reserva) reserva = salida.reserva;
       if (b.name === "consultar_disponibilidad" && salida.opciones) opciones = salida.opciones.filter((o) => o.disponible);

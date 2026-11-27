@@ -5,7 +5,7 @@ La demo usa un hotel ficticio, **Hotel Lumbre** (Bariloche): ningún dato corres
 
 - **Chat del huésped** estilo WhatsApp: precios, disponibilidad, políticas y reservas con tarjeta de confirmación.
 - **Panel del hotel**: reservas, consultas sin respuesta, conversaciones y botón para corregir una respuesta mala.
-- **Cero tarifas inventadas**: el precio y el cupo los calcula siempre el código (`src/hotel.js`) a partir de `data/hotel.json`.
+- **Cero tarifas inventadas**: el precio y el cupo los calcula siempre el código (`src/hotel.ts`) a partir de `data/hotel.json`.
 
 ## Cómo correrlo
 
@@ -15,6 +15,7 @@ npm start          # http://localhost:4300 (chat) y /panel.html (recepción)
 npm test           # pruebas de tarifas y cupo
 npm run evaluar    # las 15 conversaciones de prueba
 npm run chat       # charlar con el asistente por terminal
+npm run typecheck  # verifica los tipos (TypeScript strict; requiere Node 22.18 o superior)
 ```
 
 ## Dos modos de asistente
@@ -22,7 +23,7 @@ npm run chat       # charlar con el asistente por terminal
 | | Modo local (por defecto) | Modo API |
 |---|---|---|
 | Cuándo | Sin `ANTHROPIC_API_KEY` | Con la clave en `.env` |
-| Cómo entiende | Reglas propias (`src/local.js`): fechas, personas, habitación, palabras clave | Modelo de lenguaje con *tool use* (`src/asistente.js`) |
+| Cómo entiende | Reglas propias (`src/local.ts`): fechas, personas, habitación, palabras clave | Modelo de lenguaje con *tool use* (`src/asistente.ts`) |
 | Herramientas | Las mismas tres funciones del sistema | `consultar_disponibilidad`, `crear_reserva_pendiente`, `registrar_consulta_sin_respuesta` |
 | Costo | Cero | Por uso |
 
@@ -70,11 +71,12 @@ Los otros 13 casos acertaron desde el principio.
 
 ```
 data/hotel.json        hotel ficticio: habitaciones, tarifas, temporadas, políticas
-src/hotel.js           disponibilidad por fecha y cotización
-src/local.js           modo local (reglas)
-src/asistente.js       modo API con tool use
-src/store.js           reservas, conversaciones y correcciones (data/estado.json, fuera del repo)
-server.js              servidor HTTP propio, sin frameworks
+src/hotel.ts           disponibilidad por fecha y cotización
+src/local.ts           modo local (reglas)
+src/asistente.ts       modo API con tool use
+src/store.ts           reservas, conversaciones y correcciones (data/estado.json, fuera del repo)
+src/tipos.ts           tipos del hotel, reservas y conversaciones
+server.ts              servidor HTTP propio, sin frameworks
 public/                chat (index.html) y panel (panel.html)
 pruebas/               pruebas unitarias y conversaciones de evaluación
 ```
