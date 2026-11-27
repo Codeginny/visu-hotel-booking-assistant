@@ -7,3 +7,7 @@ datos/powerbi/
 
 # Notas de trabajo personales
 PLAN.md
+
+# JavaScript generado por tsc desde web/ (npm run build)
+public/chat.js
+public/panel.js

@@ -1,20 +1,22 @@
 // Chat del huésped: manda mensajes a /api/chat y muestra la tarjeta de confirmación.
+import type { Opcion, Reserva, RespuestaChat } from "./tipos";
+
 const API = window.VISU_API || "";
-const $ = (s) => document.querySelector(s);
+const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector<T>(s)!;
 const mensajes = $("#mensajes");
 let conversacion = sessionStorage.getItem("visu-conv");
 
 const hora = () => new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
-const pesos = (n) => `$ ${Number(n).toLocaleString("es-AR")}`;
+const pesos = (n: number) => `$ ${Number(n).toLocaleString("es-AR")}`;
 // El año sólo aparece cuando no es el corriente, para no recargar la tarjeta.
-const dia = (f) => {
+const dia = (f: string) => {
   const d = new Date(`${f}T12:00:00`);
   return d.toLocaleDateString("es-AR", { weekday: "short", day: "numeric", month: "short", ...(d.getFullYear() !== new Date().getFullYear() && { year: "numeric" }) });
 };
-const NOMBRES = { consultar_disponibilidad: "consultó disponibilidad", crear_reserva_pendiente: "preparó la reserva", registrar_consulta_sin_respuesta: "derivó a recepción" };
+const NOMBRES: Record<string, string> = { consultar_disponibilidad: "consultó disponibilidad", crear_reserva_pendiente: "preparó la reserva", registrar_consulta_sin_respuesta: "derivó a recepción" };
 const SUGERENCIAS = ["¿A qué hora es el check-in?", "¿Aceptan mascotas?", "Precio del 10 al 13 de julio para 2", "¿Cómo es la cancelación?", "¿Tienen pileta?"];
 
-function burbuja(texto, quien) {
+function burbuja(texto: string, quien: "yo" | "hotel") {
   const b = document.createElement("div");
   b.className = `burbuja ${quien}`;
   b.textContent = texto;
@@ -23,10 +25,10 @@ function burbuja(texto, quien) {
   return b;
 }
 
-function tarjeta(r) {
+function tarjeta(r: Reserva) {
   const el = document.createElement("article");
   el.className = "tarjeta";
-  const noches = Math.round((new Date(r.egreso) - new Date(r.ingreso)) / 864e5);
+  const noches = Math.round((+new Date(r.egreso) - +new Date(r.ingreso)) / 864e5);
   el.innerHTML = `
     <span class="etiqueta">Pendiente de confirmación</span>
     <h3></h3>
@@ -42,20 +44,20 @@ function tarjeta(r) {
       <button class="boton principal" data-accion="confirmar">Confirmar reserva</button>
       <button class="boton secundario" data-accion="cancelar">No reservar</button>
     </div>`;
-  el.querySelector("h3").textContent = r.nombreHabitacion;
-  el.querySelector(".nombre").textContent = r.nombre;
+  el.querySelector("h3")!.textContent = r.nombreHabitacion;
+  el.querySelector(".nombre")!.textContent = r.nombre;
   if (r.estado && r.estado !== "pendiente") {
     el.classList.add(r.estado);
-    el.querySelector(".etiqueta").textContent = r.estado === "confirmada" ? "Reserva confirmada" : "Reserva cancelada";
-    el.querySelector(".botones").remove();
+    el.querySelector(".etiqueta")!.textContent = r.estado === "confirmada" ? "Reserva confirmada" : "Reserva cancelada";
+    el.querySelector(".botones")!.remove();
   }
   el.addEventListener("click", async (e) => {
-    const accion = e.target.dataset.accion;
+    const accion = (e.target as HTMLElement).dataset.accion;
     if (!accion) return;
     const res = await fetch(`${API}/api/reservas/${r.id}/${accion}`, { method: "POST" }).then((x) => x.json());
     el.classList.add(res.estado);
-    el.querySelector(".etiqueta").textContent = res.estado === "confirmada" ? "Reserva confirmada" : "Reserva cancelada";
-    el.querySelector(".botones").remove();
+    el.querySelector(".etiqueta")!.textContent = res.estado === "confirmada" ? "Reserva confirmada" : "Reserva cancelada";
+    el.querySelector(".botones")!.remove();
     burbuja(res.estado === "confirmada"
       ? `¡Gracias, ${r.nombre}! Tu reserva quedó confirmada (código ${r.id.slice(4).toUpperCase()}). Te vamos a escribir para coordinar la seña.`
       : "Listo, la cancelé. Si querés buscamos otras fechas.", "hotel");
@@ -64,7 +66,7 @@ function tarjeta(r) {
 }
 
 // Una tarjeta chica por habitación, para comparar de un vistazo y reservar con un toque.
-function opcionesHabitacion(lista) {
+function opcionesHabitacion(lista: Opcion[]) {
   const cont = document.createElement("div");
   cont.className = "opciones";
   for (const o of lista) {
@@ -73,14 +75,14 @@ function opcionesHabitacion(lista) {
     el.innerHTML = `<div><h4></h4><small>${o.noches} noche${o.noches > 1 ? "s" : ""} · seña ${pesos(o.sena)}</small></div>
       <div class="precio">${pesos(o.total)}</div>
       <button class="boton principal" type="button">Reservar esta</button>`;
-    el.querySelector("h4").textContent = o.nombre;
-    el.querySelector("button").onclick = () => { cont.querySelectorAll("button").forEach((b) => (b.disabled = true)); enviar(`Quiero reservar la ${o.nombre}`); };
+    el.querySelector("h4")!.textContent = o.nombre;
+    el.querySelector("button")!.onclick = () => { cont.querySelectorAll("button").forEach((b) => (b.disabled = true)); enviar(`Quiero reservar la ${o.nombre}`); };
     cont.append(el);
   }
   mensajes.append(cont); mensajes.scrollTop = mensajes.scrollHeight;
 }
 
-async function enviar(texto) {
+async function enviar(texto: string) {
   burbuja(texto, "yo");
   $("#sugerencias").hidden = true;
   const esperando = document.createElement("div");
@@ -92,7 +94,7 @@ async function enviar(texto) {
     const r = await fetch(`${API}/api/chat`, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ conversacion, mensaje: texto }),
-    }).then((x) => x.json());
+    }).then((x) => x.json() as Promise<RespuestaChat>);
     esperando.remove();
     if (r.error) throw new Error(r.error);
     conversacion = r.conversacion; sessionStorage.setItem("visu-conv", conversacion);
@@ -123,8 +125,8 @@ function inicio() {
 
 $("#formulario").addEventListener("submit", (e) => {
   e.preventDefault();
-  const t = $("#entrada").value.trim();
-  if (t) { $("#entrada").value = ""; enviar(t); }
+  const t = $<HTMLInputElement>("#entrada").value.trim();
+  if (t) { $<HTMLInputElement>("#entrada").value = ""; enviar(t); }
 });
 $("#reiniciar").onclick = () => {
   if (document.querySelector(".tarjeta .botones") && !confirm("Tenés una reserva sin confirmar. ¿Empezar una charla nueva igual? La reserva queda pendiente en el hotel.")) return;

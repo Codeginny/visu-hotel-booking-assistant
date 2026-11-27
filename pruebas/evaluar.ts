@@ -17,7 +17,7 @@ const filas = [];
 for (const caso of casos) {
   store.estado.correcciones = [];
   if (caso.correccion) store.corregir(caso.correccion);
-  let conv = null;
+  let conv: string | undefined;
   const fallas = [];
   for (const t of caso.turnos) {
     const antes = store.estado.sinRespuesta.length;
