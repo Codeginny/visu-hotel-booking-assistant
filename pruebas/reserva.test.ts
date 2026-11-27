@@ -9,9 +9,9 @@ process.env.ESTADO = join(mkdtempSync(join(tmpdir(), "visu-")), "estado.json");
 const { store } = await import("../src/store.ts");
 const { responderLocal } = await import("../src/local.ts");
 
-const charla = (...mensajes) => {
+const charla = (...mensajes: string[]) => {
   const conv = store.conversacion();
-  return mensajes.map((m) => responderLocal(conv, m)).at(-1);
+  return mensajes.map((m) => responderLocal(conv, m)).at(-1)!;
 };
 const hastaDatos = ["Precio del 10 al 13 de julio de 2027 para 2", "Quiero reservar la superior"];
 
@@ -34,13 +34,13 @@ test("no confunde una respuesta corta con un nombre", () => {
   const conv = store.conversacion();
   hastaDatos.forEach((m) => responderLocal(conv, m));
   responderLocal(conv, "dale");
-  assert.equal(conv.datos.nombre, undefined);
+  assert.equal(conv.datos?.nombre, undefined);
 });
 
 test("no crea dos veces la misma reserva", () => {
   const primera = charla(...hastaDatos, "Me llamo Lucía Gómez, lucia@correo.com").reserva;
   const segunda = charla(...hastaDatos, "Lucía Gómez, lucia@correo.com");
-  assert.equal(segunda.reserva.id, primera.id);
+  assert.equal(segunda.reserva?.id, primera?.id);
   assert.match(segunda.respuesta, /ya la tenías/);
   assert.equal(store.estado.reservas.length, 1);
 });

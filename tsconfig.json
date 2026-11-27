@@ -11,5 +11,5 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "include": ["server.ts", "cli.ts", "src"]
+  "include": ["server.ts", "cli.ts", "src", "pruebas"]
 }
