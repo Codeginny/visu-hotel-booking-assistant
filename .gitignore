@@ -4,3 +4,6 @@ datos/crudo/
 node_modules/
 pruebas/resultados.json
 datos/powerbi/
+
+# Notas de trabajo personales
+PLAN.md
