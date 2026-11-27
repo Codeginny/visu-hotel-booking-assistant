@@ -1,19 +1,23 @@
 // Panel de recepción: reservas, consultas sin respuesta, conversaciones y correcciones.
-const API = window.VISU_API || "";
-const $ = (s) => document.querySelector(s);
-const pesos = (n) => `$ ${Number(n).toLocaleString("es-AR")}`;
-const dia = (f) => new Date(`${f}T12:00:00`).toLocaleDateString("es-AR", { day: "numeric", month: "short" });
-const cuando = (iso) => new Date(iso).toLocaleString("es-AR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-const esc = (s = "") => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+import type { Mensaje, Panel } from "./tipos";
 
-let datos = null;
-let vista = "reservas";
-let convAbierta = null;
+const API = window.VISU_API || "";
+const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector<T>(s)!;
+const pesos = (n: number) => `$ ${Number(n).toLocaleString("es-AR")}`;
+const dia = (f: string) => new Date(`${f}T12:00:00`).toLocaleDateString("es-AR", { day: "numeric", month: "short" });
+const cuando = (iso: string) => new Date(iso).toLocaleString("es-AR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+const ESC: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
+const esc = (s = "") => String(s).replace(/[&<>"]/g, (c) => ESC[c]);
+
+type Vista = "reservas" | "sinRespuesta" | "conversaciones" | "correcciones";
+let datos: Panel;
+let vista: Vista = "reservas";
+let convAbierta: string | null = null;
 
 async function cargar() {
   datos = await fetch(`${API}/api/panel`).then((r) => r.json());
   kpis();
-  $("#c-sr").textContent = datos.sinRespuesta.filter((s) => !s.resuelta).length || "";
+  $("#c-sr").textContent = String(datos.sinRespuesta.filter((s) => !s.resuelta).length || "");
   mostrar();
 }
 
@@ -31,9 +35,9 @@ function kpis() {
     <div class="kpi"><span>Sin respuesta</span><strong>${abiertas}</strong><small>${datos.correcciones.length} respuesta${datos.correcciones.length === 1 ? "" : "s"} corregida${datos.correcciones.length === 1 ? "" : "s"}</small></div>`;
 }
 
-const vacio = (t) => `<p class="vacio">${t}</p>`;
+const vacio = (t: string) => `<p class="vacio">${t}</p>`;
 
-const VISTAS = {
+const VISTAS: Record<Vista, () => string> = {
   reservas() {
     const lista = [...datos.reservas].sort((a, b) => b.creada.localeCompare(a.creada));
     if (!lista.length) return vacio("Todavía no hay reservas. Probá hacer una desde el chat del huésped.");
@@ -48,7 +52,7 @@ const VISTAS = {
       </tr>`).join("")}</tbody></table>`;
   },
   sinRespuesta() {
-    const lista = [...datos.sinRespuesta].sort((a, b) => a.resuelta - b.resuelta || b.fecha.localeCompare(a.fecha));
+    const lista = [...datos.sinRespuesta].sort((a, b) => +a.resuelta - +b.resuelta || b.fecha.localeCompare(a.fecha));
     if (!lista.length) return vacio("No hay consultas sin responder. El asistente pudo contestar todo con los datos del hotel.");
     return `<table class="tabla"><thead><tr><th>Pregunta del huésped</th><th>Por qué no respondió</th><th>Cuándo</th><th></th></tr></thead><tbody>
       ${lista.map((s) => `<tr>
@@ -61,11 +65,11 @@ const VISTAS = {
     const lista = [...datos.conversaciones].sort((a, b) => b.creada.localeCompare(a.creada));
     if (!lista.length) return vacio("Todavía no hay conversaciones.");
     convAbierta ||= lista[0].id;
-    const reservaDe = (id) => datos.reservas.find((r) => r.conversacion === id);
-    setTimeout(() => abrirHilo(convAbierta));
+    const reservaDe = (id: string) => datos.reservas.find((r) => r.conversacion === id);
+    setTimeout(() => abrirHilo(convAbierta!));
     return `<div class="conversaciones"><div class="lista-conv">
       ${lista.map((c) => `<button data-conv="${c.id}" class="${c.id === convAbierta ? "activa" : ""}">${esc(c.primera || "Sin mensajes")}
-        <small>${cuando(c.creada)} · ${c.turnos} mensajes${reservaDe(c.id) ? ` · reserva ${reservaDe(c.id).estado}` : ""}</small></button>`).join("")}
+        <small>${cuando(c.creada)} · ${c.turnos} mensajes${reservaDe(c.id) ? ` · reserva ${reservaDe(c.id)!.estado}` : ""}</small></button>`).join("")}
       </div><div class="hilo" id="hilo"></div></div>`;
   },
   correcciones() {
@@ -76,18 +80,18 @@ const VISTAS = {
 };
 
 function mostrar() {
-  document.querySelectorAll("[data-vista]").forEach((b) => b.setAttribute("aria-selected", b.dataset.vista === vista));
+  document.querySelectorAll("[data-vista]").forEach((b) => b.setAttribute("aria-selected", String((b as HTMLElement).dataset.vista === vista)));
   $("#vista").innerHTML = VISTAS[vista]();
 }
 
 // Sólo los mensajes de texto (los pasos de herramientas del modo con API quedan afuera).
-const texto = (m) => (typeof m.content === "string" ? m.content : m.content.filter?.((b) => b.type === "text").map((b) => b.text).join("\n"));
+const texto = (m: Mensaje) => (typeof m.content === "string" ? m.content : m.content.filter((b) => b.type === "text").map((b) => b.text).join("\n"));
 
-async function abrirHilo(id) {
+async function abrirHilo(id: string) {
   convAbierta = id;
-  document.querySelectorAll("[data-conv]").forEach((b) => b.classList.toggle("activa", b.dataset.conv === id));
-  const c = await fetch(`${API}/api/conversaciones/${id}`).then((r) => r.json());
-  const hilo = $("#hilo");
+  document.querySelectorAll("[data-conv]").forEach((b) => b.classList.toggle("activa", (b as HTMLElement).dataset.conv === id));
+  const c: { mensajes: Mensaje[] } = await fetch(`${API}/api/conversaciones/${id}`).then((r) => r.json());
+  const hilo = document.querySelector<HTMLElement>("#hilo");
   if (!hilo) return;
   hilo.innerHTML = "";
   let ultimaPregunta = "";
@@ -106,18 +110,21 @@ async function abrirHilo(id) {
   }
 }
 
+// Campos con nombre del formulario de corrección
+type FormCorreccion = HTMLFormElement & Record<"pregunta" | "mala" | "sinRespuestaId" | "respuesta", HTMLInputElement>;
+
 function corregir({ pregunta = "", mala = "", sinRespuestaId = "" }) {
-  const f = $("#form-correccion");
+  const f = $<FormCorreccion>("#form-correccion");
   f.reset();
   f.pregunta.value = pregunta; f.mala.value = mala; f.sinRespuestaId.value = sinRespuestaId;
-  f.querySelector(".mala").hidden = !mala;
-  $("#dialogo").showModal();
+  f.querySelector<HTMLElement>(".mala")!.hidden = !mala;
+  $<HTMLDialogElement>("#dialogo").showModal();
   f.respuesta.focus();
 }
 
 $("#dialogo").addEventListener("close", async () => {
-  if ($("#dialogo").returnValue !== "guardar") return;
-  const f = $("#form-correccion");
+  if ($<HTMLDialogElement>("#dialogo").returnValue !== "guardar") return;
+  const f = $<FormCorreccion>("#form-correccion");
   await fetch(`${API}/api/correcciones`, {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ pregunta: f.pregunta.value.trim(), respuesta: f.respuesta.value.trim(), sinRespuestaId: f.sinRespuestaId.value }),
@@ -126,13 +133,13 @@ $("#dialogo").addEventListener("close", async () => {
 });
 
 document.addEventListener("click", (e) => {
-  const d = e.target.closest("button")?.dataset;
+  const d = (e.target as Element).closest("button")?.dataset;
   if (!d) return;
-  if (d.vista) { vista = d.vista; mostrar(); }
+  if (d.vista) { vista = d.vista as Vista; mostrar(); }
   if (d.ver) { vista = "conversaciones"; convAbierta = d.ver; mostrar(); }
   if (d.conv) abrirHilo(d.conv);
-  if (d.responder) { const s = datos.sinRespuesta.find((x) => x.id === d.responder); corregir({ pregunta: s.pregunta, sinRespuestaId: s.id }); }
+  if (d.responder) { const s = datos.sinRespuesta.find((x) => x.id === d.responder)!; corregir({ pregunta: s.pregunta, sinRespuestaId: s.id }); }
 });
 
 cargar();
-setInterval(() => { if (!$("#dialogo").open && vista !== "conversaciones") cargar(); }, 15000);
+setInterval(() => { if (!$<HTMLDialogElement>("#dialogo").open && vista !== "conversaciones") cargar(); }, 15000);

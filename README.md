@@ -11,11 +11,11 @@ La demo usa un hotel ficticio, **Hotel Lumbre** (Bariloche): ningún dato corres
 
 ```bash
 npm install
-npm start          # http://localhost:4300 (chat) y /panel.html (recepción)
+npm start          # compila la interfaz y abre http://localhost:4300 (chat) y /panel.html (recepción)
 npm test           # pruebas de tarifas y cupo
 npm run evaluar    # las 15 conversaciones de prueba
 npm run chat       # charlar con el asistente por terminal
-npm run typecheck  # verifica los tipos (TypeScript strict; requiere Node 22.18 o superior)
+npm run typecheck  # verifica los tipos de servidor, pruebas e interfaz (TypeScript strict; Node 22.18 o superior)
 ```
 
 ## Dos modos de asistente
@@ -69,6 +69,10 @@ Los otros 13 casos acertaron desde el principio.
 
 ## Estructura
 
+Todo el código es TypeScript. El servidor corre los `.ts` directo con Node; la interfaz se compila con `tsc`
+(sin bundler) a `public/`. El único JavaScript escrito a mano es `public/config.js`, que se reemplaza al publicar
+el frente en otro dominio (por eso no se compila), y la herramienta `ux-caso/herramientas/ux-anotar.mjs`.
+
 ```
 data/hotel.json        hotel ficticio: habitaciones, tarifas, temporadas, políticas
 src/hotel.ts           disponibilidad por fecha y cotización
@@ -77,6 +81,7 @@ src/asistente.ts       modo API con tool use
 src/store.ts           reservas, conversaciones y correcciones (data/estado.json, fuera del repo)
 src/tipos.ts           tipos del hotel, reservas y conversaciones
 server.ts              servidor HTTP propio, sin frameworks
-public/                chat (index.html) y panel (panel.html)
+web/                   interfaz en TypeScript (chat.ts, panel.ts); tsc la compila a public/
+public/                chat (index.html), panel (panel.html) y config.js con la dirección de la API
 pruebas/               pruebas unitarias y conversaciones de evaluación
 ```
